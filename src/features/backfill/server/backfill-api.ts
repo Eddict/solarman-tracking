@@ -18,11 +18,11 @@ function parseYearMonth(data: unknown) {
   const month = input.month == null ? now.getUTCMonth() + 1 : Number(input.month)
 
   if (!Number.isInteger(year) || year < 2000 || year > 2100) {
-    throw new Error('Anno non valido')
+    throw new Error('Invalid year')
   }
 
   if (!Number.isInteger(month) || month < 1 || month > 12) {
-    throw new Error('Mese non valido')
+    throw new Error('Invalid month')
   }
 
   return { year, month }
@@ -37,13 +37,13 @@ export const getBackfillMonthStatusFn = createServerFn({ method: 'GET' })
 export const recoverBackfillDaysFn = createServerFn({ method: 'POST' })
   .validator((data: unknown) => {
     if (!data || typeof data !== 'object') {
-      throw new Error('Payload non valido')
+      throw new Error('Invalid payload')
     }
 
     const input = data as { dates?: unknown; year?: unknown; month?: unknown }
 
     if (!Array.isArray(input.dates)) {
-      throw new Error('Elenco giorni mancante')
+      throw new Error('Missing day list')
     }
 
     const dates = input.dates.map((value) => String(value))
@@ -70,7 +70,7 @@ export const runFullBackfillFn = createServerFn({ method: 'POST' })
       input.maxDays == null ? undefined : Number(input.maxDays)
 
     if (maxDays != null && (!Number.isInteger(maxDays) || maxDays < 1 || maxDays > 3650)) {
-      throw new Error('maxDays non valido')
+      throw new Error('Invalid maxDays')
     }
 
     return { maxDays, year, month }

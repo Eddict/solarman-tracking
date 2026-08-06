@@ -28,7 +28,7 @@ type EnergyChartProps = {
 }
 
 type LegendPayload = {
-  dataKey?: string
+  dataKey?: string | number | ((obj: unknown) => unknown)
   value?: string
   color?: string
 }
@@ -66,7 +66,7 @@ export function EnergyChart({
   if (samples.length === 0) {
     return (
       <div className="flex h-80 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-50 text-slate-500">
-        Nessun dato disponibile. Avvia una sincronizzazione.
+        No data available. Start a sync.
       </div>
     )
   }
@@ -86,7 +86,7 @@ export function EnergyChart({
 
   function handleLegendClick(payload: LegendPayload) {
     const key = payload.dataKey
-    if (!isSeriesKey(key)) {
+    if (typeof key !== 'string' || !isSeriesKey(key)) {
       return
     }
 
@@ -103,7 +103,7 @@ export function EnergyChart({
             onChange={(event) => setIsNormalized(event.target.checked)}
             className="h-4 w-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500"
           />
-          Normalizza e leviga curve
+          Normalize and smooth curves
         </label>
       </div>
 
@@ -195,7 +195,7 @@ function formatTooltip(
 
   if (isNormalized) {
     if (typeof rawValue === 'number') {
-      if (label === 'SOC batteria') {
+      if (label === 'Battery SOC') {
         return [`${value.toFixed(1)} % (${rawValue.toFixed(1)} %)`, label]
       }
 
@@ -205,7 +205,7 @@ function formatTooltip(
     return [`${value.toFixed(1)} %`, label]
   }
 
-  if (label === 'SOC batteria') {
+  if (label === 'Battery SOC') {
     return [`${value.toFixed(1)} %`, label]
   }
 

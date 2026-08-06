@@ -97,11 +97,11 @@ function sortDateKeys(days: string[]) {
 async function ensureArchiveEnabled() {
   const config = await getConfig()
   if (!config.archive.enabled) {
-    throw new Error('Archivio S3 disabilitato nelle impostazioni')
+    throw new Error('S3 archive disabled in settings')
   }
 
   if (!isArchiveS3Configured()) {
-    throw new Error('Credenziali Cubbit S3 non configurate')
+    throw new Error('Cubbit S3 credentials not configured')
   }
 }
 
@@ -144,7 +144,7 @@ export async function getMonthArchiveStatus(input: {
         listedWithoutMeta.add(dateKey)
       }
     } catch (error) {
-      s3Error = error instanceof Error ? error.message : 'Errore lettura manifest'
+      s3Error = error instanceof Error ? error.message : 'Manifest read error'
     }
   }
 
@@ -214,7 +214,7 @@ export async function exportDaysToArchive(input: {
 
   const days = sortDateKeys(input.days)
   if (days.length === 0) {
-    throw new Error('Nessun giorno selezionato')
+    throw new Error('No days selected')
   }
 
   const manifest = await loadManifest(input.stationId)
@@ -226,7 +226,7 @@ export async function exportDaysToArchive(input: {
     try {
       const samples = await loadDaySamplesFromDb(input.stationId, dateKey)
       if (samples.length === 0) {
-        errors.push(`${dateKey}: nessun campione locale`)
+        errors.push(`${dateKey}: no local samples`)
         return
       }
 
@@ -248,7 +248,7 @@ export async function exportDaysToArchive(input: {
       rowsAffected += encoded.rowCount
       daysProcessed += 1
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'errore export'
+      const message = error instanceof Error ? error.message : 'export error'
       errors.push(`${dateKey}: ${message}`)
     }
   })
@@ -288,7 +288,7 @@ export async function hydrateDaysFromArchive(input: {
 
   const days = sortDateKeys(input.days)
   if (days.length === 0) {
-    throw new Error('Nessun giorno selezionato')
+    throw new Error('No days selected')
   }
 
   let rowsAffected = 0
@@ -299,14 +299,14 @@ export async function hydrateDaysFromArchive(input: {
     try {
       const buffer = await getObjectBuffer(dayObjectKey(input.stationId, dateKey))
       if (!buffer) {
-        errors.push(`${dateKey}: oggetto S3 assente`)
+        errors.push(`${dateKey}: S3 object missing`)
         return
       }
 
       const payload = decodeDayGzip(buffer)
       const inserts = payloadToInserts(input.stationId, payload)
       if (inserts.length === 0) {
-        errors.push(`${dateKey}: file vuoto`)
+        errors.push(`${dateKey}: empty file`)
         return
       }
 
@@ -314,7 +314,7 @@ export async function hydrateDaysFromArchive(input: {
       rowsAffected += affected
       daysProcessed += 1
     } catch (error) {
-      const message = error instanceof Error ? error.message : 'errore hydrate'
+      const message = error instanceof Error ? error.message : 'hydrate error'
       errors.push(`${dateKey}: ${message}`)
     }
   })

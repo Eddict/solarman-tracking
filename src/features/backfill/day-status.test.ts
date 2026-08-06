@@ -10,7 +10,7 @@ import {
 describe('resolveBackfillDayStatus', () => {
   const now = new Date('2026-07-22T15:00:00.000Z')
 
-  it('marca assente senza campioni', () => {
+  it('marks missing without samples', () => {
     const status = resolveBackfillDayStatus({
       date: '2026-07-20',
       localCount: 0,
@@ -21,7 +21,7 @@ describe('resolveBackfillDayStatus', () => {
     expect(status.expectedSamples).toBe(288)
   })
 
-  it('marca parziale sotto la soglia', () => {
+  it('marks partial below the threshold', () => {
     const status = resolveBackfillDayStatus({
       date: '2026-07-20',
       localCount: 100,
@@ -31,7 +31,7 @@ describe('resolveBackfillDayStatus', () => {
     expect(status.state).toBe('partial')
   })
 
-  it('marca completo sopra la soglia', () => {
+  it('marks complete above the threshold', () => {
     const status = resolveBackfillDayStatus({
       date: '2026-07-20',
       localCount: 240,
@@ -41,7 +41,7 @@ describe('resolveBackfillDayStatus', () => {
     expect(status.state).toBe('complete')
   })
 
-  it('usa campioni attesi ridotti per oggi', () => {
+  it('uses reduced expected samples for today', () => {
     const status = resolveBackfillDayStatus({
       date: '2026-07-22',
       localCount: 50,
@@ -54,7 +54,7 @@ describe('resolveBackfillDayStatus', () => {
 })
 
 describe('countDayStates', () => {
-  it('conta gli stati del mese', () => {
+  it('counts month states', () => {
     const counts = countDayStates([
       {
         date: '2026-07-01',
@@ -81,7 +81,7 @@ describe('countDayStates', () => {
 })
 
 describe('dateKeysForMonth', () => {
-  it('genera tutte le chiavi del mese', () => {
+  it('generates all month keys', () => {
     const keys = dateKeysForMonth(2026, 2)
     expect(keys).toHaveLength(28)
     expect(keys[0]).toBe('2026-02-01')
@@ -90,7 +90,7 @@ describe('dateKeysForMonth', () => {
 })
 
 describe('dayOffsetFromToday', () => {
-  it('calcola l offset in giorni UTC', () => {
+  it('calculates the UTC day offset', () => {
     const now = new Date('2026-07-22T12:00:00.000Z')
     expect(dayOffsetFromToday('2026-07-22', now)).toBe(0)
     expect(dayOffsetFromToday('2026-07-20', now)).toBe(2)

@@ -78,7 +78,7 @@ export async function restoreDatabase(inputPath: string) {
   const resolved = path.resolve(inputPath)
 
   if (!existsSync(resolved)) {
-    throw new Error(`File non trovato: ${resolved}`)
+    throw new Error(`File not found: ${resolved}`)
   }
 
   const isGz = resolved.endsWith('.gz')
@@ -111,7 +111,7 @@ export async function restoreDatabase(inputPath: string) {
 
 function uploadToRemote() {
   if (!commandExists('rclone')) {
-    return { ok: false, error: 'rclone non trovato' }
+    return { ok: false, error: 'rclone not found' }
   }
 
   const remote = getRcloneRemote()
@@ -240,17 +240,17 @@ export async function restoreFromBackupRunId(id: number) {
   const run = await getBackupRunById(id)
 
   if (!run) {
-    throw new Error('Backup non trovato')
+    throw new Error('Backup not found')
   }
 
   if (run.status !== 'success') {
-    throw new Error('Solo i backup completati possono essere ripristinati')
+    throw new Error('Only completed backups can be restored')
   }
 
   const filePath = path.join(BACKUP_DIR, run.filename)
 
   if (!existsSync(filePath)) {
-    throw new Error(`File backup non trovato in locale: ${run.filename}`)
+    throw new Error(`Backup file not found locally: ${run.filename}`)
   }
 
   await restoreDatabase(filePath)

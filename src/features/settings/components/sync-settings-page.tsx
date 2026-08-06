@@ -37,14 +37,14 @@ export function SyncSettingsPage({
   return (
     <div className="flex flex-col gap-6">
       <Section
-        title="Sincronizzazione Solarman"
-        description="Frequenza del worker che scarica i dati dall'inverter."
+        title="Solarman synchronization"
+        description="Frequency of the worker that downloads data from the inverter."
       >
         <SelectField
-          label="Intervallo sync"
+          label="Sync interval"
           value={config.sync.intervalMs}
           options={SYNC_INTERVAL_OPTIONS}
-          hint="La granularità dati Solarman è 5 minuti"
+          hint="The Solarman data granularity is 5 minutes"
           onChange={(value) =>
             setConfig({
               ...config,
@@ -53,8 +53,8 @@ export function SyncSettingsPage({
           }
         />
         <ToggleField
-          label="Includi dati realtime"
-          description="Aggiunge lo snapshot istantaneo a ogni sync"
+          label="Include realtime data"
+          description="Adds the instant snapshot to each sync"
           checked={config.sync.includeRealtime}
           onChange={(checked) =>
             setConfig({
@@ -66,17 +66,17 @@ export function SyncSettingsPage({
       </Section>
 
       <Section
-        title="Backfill storico"
-        description="Parametri per il caricamento iniziale e il recupero dei dati passati."
+        title="Historical backfill"
+        description="Parameters for the initial load and recovery of past data."
       >
         <SliderField
-          label="Giorni vuoti prima di fermarsi"
+          label="Empty days before stopping"
           value={config.backfill.maxConsecutiveEmptyDays}
           min={1}
           max={90}
           step={1}
-          unit=" giorni"
-          hint="Il backfill completo si interrompe dopo questa sequenza di giorni senza dati"
+          unit=" days"
+          hint="The full backfill stops after this sequence of days without data"
           onChange={(value) =>
             setConfig({
               ...config,

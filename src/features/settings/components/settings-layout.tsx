@@ -19,32 +19,32 @@ type SettingsNavItem = {
 const NAV_ITEMS: SettingsNavItem[] = [
   {
     to: '/settings/sync',
-    label: 'Sincronizzazione',
-    description: 'Worker Solarman e backfill storico',
+    label: 'Synchronization',
+    description: 'Solarman worker and historical backfill',
     icon: RefreshCw,
   },
   {
     to: '/settings/notifications',
-    label: 'Notifiche',
-    description: 'Telegram e alert batteria',
+    label: 'Notifications',
+    description: 'Telegram and battery alerts',
     icon: Bell,
   },
   {
     to: '/settings/dashboard',
     label: 'Dashboard',
-    description: 'Intervallo e grafico predefiniti',
+    description: 'Default range and chart',
     icon: LayoutDashboard,
   },
   {
     to: '/settings/backup',
     label: 'Backup',
-    description: 'Policy, cronologia e ripristino',
+    description: 'Policy, history, and restore',
     icon: Database,
   },
   {
     to: '/settings/archive',
-    label: 'Archivio',
-    description: 'Partizioni giornaliere su S3 e ripristino',
+    label: 'Archive',
+    description: 'Daily S3 partitions and restore',
     icon: Archive,
   },
 ]
@@ -60,7 +60,7 @@ export function SettingsLayout() {
         <div className="flex items-center gap-3">
           <AppLogo />
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">Impostazioni</h1>
+            <h1 className="text-3xl font-bold text-slate-900">Settings</h1>
             <p className="mt-1 text-slate-600">{activeItem.description}</p>
           </div>
         </div>
@@ -72,7 +72,7 @@ export function SettingsLayout() {
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         <aside className="w-full shrink-0 lg:w-56">
           <nav
-            aria-label="Sezioni impostazioni"
+            aria-label="Settings sections"
             className="rounded-xl border border-slate-200 bg-white p-2 shadow-sm"
           >
             <ul className="flex flex-col gap-1">

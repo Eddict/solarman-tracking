@@ -14,9 +14,9 @@ import {
 
 const DASHBOARD_RANGE_OPTIONS = [
   { label: '24 ore', value: 24 },
-  { label: '7 giorni', value: 24 * 7 },
-  { label: '30 giorni', value: 24 * 30 },
-  { label: '90 giorni', value: 24 * 90 },
+  { label: '7 days', value: 24 * 7 },
+  { label: '30 days', value: 24 * 30 },
+  { label: '90 days', value: 24 * 90 },
 ]
 
 type DashboardSettingsPageProps = {
@@ -32,11 +32,11 @@ export function DashboardSettingsPage({
   return (
     <div className="flex flex-col gap-6">
       <Section
-        title="Intervallo temporale"
-        description="Periodo predefinito mostrato all'apertura della dashboard."
+        title="Time range"
+        description="Default period shown when the dashboard opens."
       >
         <SelectField
-          label="Intervallo predefinito"
+          label="Default range"
           value={config.dashboard.defaultRangeHours}
           options={DASHBOARD_RANGE_OPTIONS}
           onChange={(value) =>
@@ -49,12 +49,12 @@ export function DashboardSettingsPage({
       </Section>
 
       <Section
-        title="Grafico energia"
-        description="Aspetto e serie visualizzate di default nel grafico principale."
+        title="Energy chart"
+        description="Default appearance and series shown in the main chart."
       >
         <ToggleField
-          label="Normalizza e leviga curve"
-          description="Vista normalizzata (0–100%) con media mobile"
+          label="Normalize and smooth curves"
+          description="Normalized view (0–100%) with moving average"
           checked={config.chart.smooth}
           onChange={(checked) =>
             setConfig({
@@ -64,7 +64,7 @@ export function DashboardSettingsPage({
           }
         />
         <div className="flex flex-col gap-3">
-          <span className="text-sm text-slate-600">Serie visibili di default</span>
+          <span className="text-sm text-slate-600">Visible series by default</span>
           {CHART_SERIES.map((series) => (
             <ToggleField
               key={series.key}

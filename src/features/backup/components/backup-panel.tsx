@@ -28,9 +28,9 @@ export function BackupPanel({ health: initialHealth, runs: initialRuns }: Backup
       const result = await triggerBackup()
       setHealth(result.health)
       setRuns(result.runs)
-      setMessage('Backup completato.')
+      setMessage('Backup completed.')
     } catch (error) {
-      const text = error instanceof Error ? error.message : 'Backup non riuscito'
+      const text = error instanceof Error ? error.message : 'Backup failed'
       setMessage(text)
     } finally {
       setIsRunning(false)
@@ -49,11 +49,11 @@ export function BackupPanel({ health: initialHealth, runs: initialRuns }: Backup
       const result = await restoreFromBackup({ data: { id: restoreTarget.id } })
       setHealth(result.health)
       setRuns(result.runs)
-      setMessage(`Ripristino completato da ${restoreTarget.filename}.`)
+      setMessage(`Restore completed from ${restoreTarget.filename}.`)
       setRestoreTarget(null)
       setConfirmText('')
     } catch (error) {
-      const text = error instanceof Error ? error.message : 'Ripristino non riuscito'
+      const text = error instanceof Error ? error.message : 'Restore failed'
       setMessage(text)
     } finally {
       setIsRunning(false)
@@ -65,7 +65,7 @@ export function BackupPanel({ health: initialHealth, runs: initialRuns }: Backup
       <HealthCard health={health} />
 
       <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-slate-800">Azioni</h2>
+        <h2 className="mb-4 text-lg font-semibold text-slate-800">Actions</h2>
         <div className="flex flex-wrap gap-3">
           <button
             type="button"
@@ -74,28 +74,28 @@ export function BackupPanel({ health: initialHealth, runs: initialRuns }: Backup
             className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 font-medium text-white hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <Database className="h-4 w-4" />
-            {isRunning ? 'Operazione in corso...' : 'Esegui backup ora'}
+            {isRunning ? 'Operation in progress...' : 'Run backup now'}
           </button>
         </div>
         <p className="mt-3 text-xs text-slate-500">
-          Prima di un ripristino, considera di fermare il worker sync per evitare conflitti.
+          Before a restore, consider stopping the sync worker to avoid conflicts.
         </p>
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-slate-800">Cronologia</h2>
+        <h2 className="mb-4 text-lg font-semibold text-slate-800">History</h2>
         {runs.length === 0 ? (
-          <p className="text-sm text-slate-500">Nessun backup registrato.</p>
+          <p className="text-sm text-slate-500">No backups recorded.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[640px] text-left text-sm">
               <thead>
                 <tr className="border-b border-slate-200 text-slate-500">
-                  <th className="py-2 pr-3 font-medium">Data</th>
+                  <th className="py-2 pr-3 font-medium">Date</th>
                   <th className="py-2 pr-3 font-medium">File</th>
-                  <th className="py-2 pr-3 font-medium">Dimensione</th>
-                  <th className="py-2 pr-3 font-medium">Origine</th>
-                  <th className="py-2 pr-3 font-medium">Stato</th>
+                  <th className="py-2 pr-3 font-medium">Size</th>
+                  <th className="py-2 pr-3 font-medium">Source</th>
+                  <th className="py-2 pr-3 font-medium">Status</th>
                   <th className="py-2 pr-3 font-medium">Cubbit</th>
                   <th className="py-2 font-medium" />
                 </tr>
@@ -112,7 +112,7 @@ export function BackupPanel({ health: initialHealth, runs: initialRuns }: Backup
                     <td className="py-3 pr-3">
                       <StatusBadge status={run.status} />
                     </td>
-                    <td className="py-3 pr-3">{run.remoteSynced ? 'Sì' : 'No'}</td>
+                    <td className="py-3 pr-3">{run.remoteSynced ? 'Yes' : 'No'}</td>
                     <td className="py-3">
                       <button
                         type="button"
@@ -124,7 +124,7 @@ export function BackupPanel({ health: initialHealth, runs: initialRuns }: Backup
                         className="inline-flex items-center gap-1 rounded-md border border-slate-300 px-2 py-1 text-xs font-medium text-slate-700 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
                       >
                         <HardDriveDownload className="h-3.5 w-3.5" />
-                        Ripristina
+                        Restore
                       </button>
                     </td>
                   </tr>
@@ -138,20 +138,20 @@ export function BackupPanel({ health: initialHealth, runs: initialRuns }: Backup
       {restoreTarget ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4">
           <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-xl">
-            <h3 className="text-lg font-semibold text-slate-900">Conferma ripristino</h3>
+            <h3 className="text-lg font-semibold text-slate-900">Confirm restore</h3>
             <p className="mt-2 text-sm text-slate-600">
-              Questa operazione sostituirà tutti i dati del database con il backup{' '}
+              This operation will replace all database data with the backup{' '}
               <span className="font-mono text-xs">{restoreTarget.filename}</span>.
             </p>
             <p className="mt-2 text-sm text-amber-700">
-              Digita <strong>RIPRISTINA</strong> per confermare.
+              Type <strong>RESTORE</strong> to confirm.
             </p>
             <input
               type="text"
               value={confirmText}
               onChange={(event) => setConfirmText(event.target.value)}
               className="mt-4 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm"
-              placeholder="RIPRISTINA"
+              placeholder="RESTORE"
             />
             <div className="mt-4 flex justify-end gap-2">
               <button
@@ -162,16 +162,16 @@ export function BackupPanel({ health: initialHealth, runs: initialRuns }: Backup
                 }}
                 className="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-700"
               >
-                Annulla
+                Cancel
               </button>
               <button
                 type="button"
-                disabled={confirmText !== 'RIPRISTINA' || isRunning}
+                disabled={confirmText !== 'RESTORE' || isRunning}
                 onClick={handleRestore}
                 className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 <RotateCcw className="h-4 w-4" />
-                Ripristina
+                Restore
               </button>
             </div>
           </div>
@@ -195,9 +195,9 @@ function HealthCard({ health }: { health: BackupHealth }) {
   } as const
 
   const labels = {
-    ok: 'Backup aggiornato',
-    missing: 'Backup mancante o scaduto',
-    failed: 'Ultimo tentativo fallito',
+    ok: 'Backup up to date',
+    missing: 'Backup missing or expired',
+    failed: 'Last attempt failed',
   } as const
 
   return (
@@ -205,20 +205,20 @@ function HealthCard({ health }: { health: BackupHealth }) {
       <h2 className="text-lg font-semibold">{labels[health.status]}</h2>
       <dl className="mt-3 grid gap-2 text-sm">
         <div className="flex justify-between gap-4">
-          <dt>Ultimo backup OK</dt>
+          <dt>Last successful backup</dt>
           <dd>{health.lastSuccessAt ? formatDate(new Date(health.lastSuccessAt)) : '—'}</dd>
         </div>
         <div className="flex justify-between gap-4">
-          <dt>Ultimo tentativo</dt>
+          <dt>Last attempt</dt>
           <dd>{health.lastRunAt ? formatDate(new Date(health.lastRunAt)) : '—'}</dd>
         </div>
         <div className="flex justify-between gap-4">
-          <dt>Soglia massima</dt>
-          <dd>{health.maxAgeHours} ore</dd>
+          <dt>Maximum threshold</dt>
+          <dd>{health.maxAgeHours} hours</dd>
         </div>
         {health.lastSuccessRun ? (
           <div className="flex justify-between gap-4">
-            <dt>Ultimo file</dt>
+            <dt>Last file</dt>
             <dd className="font-mono text-xs">{health.lastSuccessRun.filename}</dd>
           </div>
         ) : null}
@@ -236,8 +236,8 @@ function StatusBadge({ status }: { status: BackupRun['status'] }) {
 
   const labels = {
     success: 'OK',
-    failed: 'Fallito',
-    upload_failed: 'Upload fallito',
+    failed: 'Failed',
+    upload_failed: 'Upload failed',
   } as const
 
   return (

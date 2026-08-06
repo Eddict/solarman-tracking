@@ -24,11 +24,11 @@ export function NotificationsSettingsPage({
     <div className="flex flex-col gap-6">
       <Section
         title="Telegram"
-        description="Abilita l'invio di notifiche tramite bot Telegram."
+        description="Enables sending notifications through the Telegram bot."
       >
         <ToggleField
-          label="Notifiche attive"
-          description="Master switch per tutti gli alert Telegram"
+          label="Notifications active"
+          description="Master switch for all Telegram alerts"
           checked={config.telegram.enabled}
           onChange={(checked) =>
             setConfig({
@@ -40,18 +40,18 @@ export function NotificationsSettingsPage({
       </Section>
 
       <Section
-        title="Alert batteria"
-        description="Soglie SOC e frequenza degli avvisi batteria."
+        title="Battery alerts"
+        description="SOC thresholds and battery warning frequency."
       >
         <SliderField
-          label="SOC basso"
+          label="Low SOC"
           value={config.battery.socLow}
           min={0}
           max={100}
           step={1}
           unit=" %"
           accent="emerald"
-          hint="Alert quando la carica scende sotto questa soglia"
+          hint="Alert when charge falls below this threshold"
           onChange={(value) =>
             setConfig({
               ...config,
@@ -60,14 +60,14 @@ export function NotificationsSettingsPage({
           }
         />
         <SliderField
-          label="SOC alto"
+          label="High SOC"
           value={config.battery.socHigh}
           min={0}
           max={100}
           step={1}
           unit=" %"
           accent="emerald"
-          hint="Alert quando la carica supera questa soglia"
+          hint="Alert when charge exceeds this threshold"
           onChange={(value) =>
             setConfig({
               ...config,
@@ -76,13 +76,13 @@ export function NotificationsSettingsPage({
           }
         />
         <SliderField
-          label="Cooldown alert"
+          label="Alert cooldown"
           value={config.battery.alertCooldownHours}
           min={0}
           max={48}
           step={1}
           unit=" ore"
-          hint="Intervallo minimo tra due notifiche dello stesso tipo"
+          hint="Minimum interval between two notifications of the same type"
           onChange={(value) =>
             setConfig({
               ...config,

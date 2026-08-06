@@ -74,7 +74,7 @@ export async function runCheckpointBackfill(options?: {
       inserted: 0,
       daysProcessed: 0,
       stoppedReason: 'no_credentials',
-      message: 'Credenziali Solarman mancanti — backfill non disponibile',
+      message: 'Missing Solarman credentials — backfill unavailable',
     }
   }
 
@@ -136,7 +136,7 @@ export async function runCheckpointBackfill(options?: {
           inserted,
           daysProcessed,
           stoppedReason: 'empty_streak',
-          message: `Backfill fermato: ${emptyStreak} giorni vuoti consecutivi`,
+          message: `Backfill stopped: ${emptyStreak} consecutive empty days`,
         }
       }
 
@@ -174,7 +174,7 @@ export async function runCheckpointBackfill(options?: {
     inserted,
     daysProcessed,
     stoppedReason: 'completed_batch',
-    message: `Backfill batch completato (${daysProcessed} giorni, ${inserted} righe)`,
+    message: `Backfill batch completato (${daysProcessed} days, ${inserted} lines)`,
   }
 }
 

@@ -36,13 +36,13 @@ export const triggerBackup = createServerFn({ method: 'POST' }).handler(
 export const restoreFromBackup = createServerFn({ method: 'POST' })
   .validator((data: unknown) => {
     if (!data || typeof data !== 'object' || !('id' in data)) {
-      throw new Error('ID backup mancante')
+      throw new Error('Missing backup ID')
     }
 
     const id = Number((data as { id: unknown }).id)
 
     if (!Number.isInteger(id) || id <= 0) {
-      throw new Error('ID backup non valido')
+      throw new Error('Invalid backup ID')
     }
 
     return { id }

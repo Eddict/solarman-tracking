@@ -70,7 +70,7 @@ export const getEnergyDashboard = createServerFn({ method: 'GET' })
       }
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Database non disponibile'
+        error instanceof Error ? error.message : 'Database unavailable'
 
       return {
         samples: [],

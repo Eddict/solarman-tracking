@@ -21,17 +21,17 @@ export function BackupPolicySection({ config: initialConfig }: BackupPolicySecti
   return (
     <>
       <Section
-        title="Policy backup"
-        description="Soglie per il controllo automatico della regolarità dei backup."
+        title="Backup policy"
+        description="Thresholds for automatic monitoring of backup regularity."
       >
         <SliderField
-          label="Soglia backup mancante"
+          label="Missing backup threshold"
           value={config.backup.maxAgeHours}
           min={1}
           max={168}
           step={1}
           unit=" ore"
-          hint="Segnala un problema se l'ultimo backup OK è più vecchio di questa soglia"
+          hint="Report a problem if the last successful backup is older than this threshold"
           onChange={(value) =>
             setConfig({
               ...config,
@@ -40,8 +40,8 @@ export function BackupPolicySection({ config: initialConfig }: BackupPolicySecti
           }
         />
         <ToggleField
-          label="Alert Telegram backup mancante"
-          description="Richiede notifiche Telegram attive"
+          label="Missing backup Telegram alert"
+          description="Requires active Telegram notifications"
           checked={config.backup.alertOnMissing}
           onChange={(checked) =>
             setConfig({

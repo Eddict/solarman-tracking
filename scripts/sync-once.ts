@@ -5,7 +5,7 @@ import { syncSolarmanMinute } from '@/server/jobs/sync-solarman'
 
 async function main() {
   const result = await syncSolarmanMinute({ backfillDays: 2 })
-  console.log(`[sync:once] ${result.message} (${result.inserted} righe, mode=${result.mode})`)
+  console.log(`[sync:once] ${result.message} (${result.inserted} lines, mode=${result.mode})`)
   await closePool()
 }
 

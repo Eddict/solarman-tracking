@@ -7,21 +7,21 @@ const STATE_STYLES: Record<
   complete: {
     bg: 'bg-emerald-100',
     border: 'border-emerald-300',
-    label: 'Completo',
+    label: 'Complete',
   },
   partial: {
     bg: 'bg-orange-100',
     border: 'border-orange-300',
-    label: 'Parziale',
+    label: 'Partial',
   },
   missing: {
     bg: 'bg-slate-100',
     border: 'border-slate-200',
-    label: 'Assente',
+    label: 'Missing',
   },
 }
 
-const WEEKDAY_LABELS = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
+const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 type BackfillCalendarProps = {
   year: number
@@ -112,7 +112,7 @@ export function BackfillCalendar({
             onClick={onClearSelection}
             className="ml-auto text-amber-700 hover:underline"
           >
-            Deseleziona ({selected.size})
+            Clear selection ({selected.size})
           </button>
         ) : null}
       </div>

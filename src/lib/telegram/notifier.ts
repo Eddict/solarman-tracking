@@ -8,7 +8,7 @@ export type TelegramSendResult = {
 
 export async function sendTelegramMessage(text: string): Promise<TelegramSendResult> {
   if (!env.TELEGRAM_BOT_TOKEN || !env.TELEGRAM_CHAT_ID) {
-    return { ok: false, error: 'Credenziali Telegram mancanti' }
+    return { ok: false, error: 'Missing Telegram credentials' }
   }
 
   const url = `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`
@@ -34,7 +34,7 @@ export async function sendTelegramMessage(text: string): Promise<TelegramSendRes
   }
 
   if (!payload.ok) {
-    return { ok: false, error: payload.description ?? 'Invio non riuscito' }
+    return { ok: false, error: payload.description ?? 'Send failed' }
   }
 
   return { ok: true, messageId: payload.result?.message_id }

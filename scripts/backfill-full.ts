@@ -7,7 +7,7 @@ async function main() {
   const maxDays = Number(process.argv[2] ?? 365)
   const result = await runCheckpointBackfill({ maxDays })
   console.log(
-    `[sync:backfill:full] ${result.message} (${result.inserted} righe, ${result.daysProcessed} giorni, reason=${result.stoppedReason})`,
+    `[sync:backfill:full] ${result.message} (${result.inserted} lines, ${result.daysProcessed} days, reason=${result.stoppedReason})`,
   )
   await closePool()
 }

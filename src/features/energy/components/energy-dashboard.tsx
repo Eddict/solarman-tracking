@@ -42,7 +42,7 @@ export function EnergyDashboard({
       await router.invalidate()
     } catch (error) {
       const text =
-        error instanceof Error ? error.message : 'Sincronizzazione non riuscita'
+        error instanceof Error ? error.message : 'Synchronization failed'
       setMessage(text)
     } finally {
       setIsSyncing(false)
@@ -65,7 +65,7 @@ export function EnergyDashboard({
             className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
           >
             <Settings className="h-4 w-4" />
-            Impostazioni
+            Settings
           </Link>
           <button
             type="button"
@@ -74,7 +74,7 @@ export function EnergyDashboard({
             className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-500 px-4 py-2 font-medium text-white transition hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <RefreshCw className={`h-4 w-4 ${isSyncing ? 'animate-spin' : ''}`} />
-            {isSyncing ? 'Sincronizzazione...' : 'Sincronizza ora'}
+            {isSyncing ? 'Synchronizing...' : 'Sync now'}
           </button>
         </div>
       </header>
@@ -88,27 +88,27 @@ export function EnergyDashboard({
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         <MetricCard
-          label="Produzione totale"
+          label="Total production"
           value={formatEnergy(totals.producedWh)}
           accent="text-amber-600"
         />
         <MetricCard
-          label="Consumo totale"
+          label="Total consumption"
           value={formatEnergy(totals.consumedWh)}
           accent="text-blue-600"
         />
         <MetricCard
-          label="Prelievo dalla rete"
+          label="Grid import"
           value={formatEnergy(totals.importedWh)}
           accent="text-red-600"
         />
         <MetricCard
-          label="Immissione in rete"
+          label="Grid export"
           value={formatEnergy(totals.exportedWh)}
           accent="text-teal-600"
         />
         <MetricCard
-          label="Autoconsumo"
+          label="Self-consumption"
           value={formatEnergy(totals.selfConsumedWh)}
           accent="text-emerald-600"
         />
@@ -116,22 +116,22 @@ export function EnergyDashboard({
 
       <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard
-          label="SOC min / max"
+          label="Min / max SOC"
           value={`${formatSoc(stats.socMin)} / ${formatSoc(stats.socMax)}`}
           accent="text-emerald-700"
         />
         <MetricCard
-          label="SOC medio"
+          label="Average SOC"
           value={formatSoc(stats.socAvg)}
           accent="text-emerald-700"
         />
         <MetricCard
-          label="Energia caricata"
+          label="Energy charged"
           value={formatEnergy(stats.energyChargedWh)}
           accent="text-green-600"
         />
         <MetricCard
-          label="Energia scaricata"
+          label="Energy discharged"
           value={formatEnergy(stats.energyDischargedWh)}
           accent="text-orange-600"
         />
@@ -145,14 +145,14 @@ export function EnergyDashboard({
 
       <footer className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600">
         <p>
-          Stato sync: <StatusBadge status={data.syncStatus.lastStatus} />
-          {data.syncStatus.isMock ? ' · modalità demo' : ' · Solarman live'}
+          Sync status: <StatusBadge status={data.syncStatus.lastStatus} />
+          {data.syncStatus.isMock ? ' · demo mode' : ' · Solarman live'}
         </p>
         {data.syncStatus.lastRunAt ? (
-          <p>Ultima esecuzione: {formatDateTime(data.syncStatus.lastRunAt)}</p>
+          <p>Last run: {formatDateTime(data.syncStatus.lastRunAt)}</p>
         ) : null}
         {data.syncStatus.lastError ? (
-          <p className="text-red-600">Errore: {data.syncStatus.lastError}</p>
+          <p className="text-red-600">Error: {data.syncStatus.lastError}</p>
         ) : null}
         {message ? <p className="mt-1 text-slate-800">{message}</p> : null}
       </footer>

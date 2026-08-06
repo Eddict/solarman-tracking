@@ -17,7 +17,7 @@ async function main() {
     startOffset,
     includeRealtime,
   })
-  console.log(`[sync:backfill] ${result.message} (${result.inserted} righe, mode=${result.mode})`)
+  console.log(`[sync:backfill] ${result.message} (${result.inserted} lines, mode=${result.mode})`)
   await closePool()
 }
 

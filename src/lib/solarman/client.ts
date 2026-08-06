@@ -64,13 +64,13 @@ export class SolarmanClient {
     })
 
     if (!response.ok) {
-      throw new Error(`Solarman API ${path} ha risposto ${response.status}`)
+      throw new Error(`Solarman API ${path} responded with ${response.status}`)
     }
 
     const payload = (await response.json()) as T & { success?: boolean; msg?: string | null }
 
     if (!payload.success) {
-      throw new Error(payload.msg ?? `Solarman API ${path} non riuscita`)
+      throw new Error(payload.msg ?? `Solarman API ${path} failed`)
     }
 
     return payload
@@ -96,13 +96,13 @@ export class SolarmanClient {
     })
 
     if (!response.ok) {
-      throw new Error(`Autenticazione Solarman fallita (${response.status})`)
+      throw new Error(`Solarman authentication failed (${response.status})`)
     }
 
     const payload = (await response.json()) as SolarmanTokenResponse
 
     if (!payload.success || !payload.access_token) {
-      throw new Error(payload.msg ?? 'Token Solarman non disponibile')
+      throw new Error(payload.msg ?? 'Solarman token unavailable')
     }
 
     const expiresInMs = Number(payload.expires_in ?? 3_600) * 1000

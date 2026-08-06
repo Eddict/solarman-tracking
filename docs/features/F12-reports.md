@@ -26,7 +26,7 @@ Let the user build, save, and re-run energy reports from a dedicated UI. Each re
 
 ### Create / edit report
 
-1. Open `/reports` → **Nuovo report**
+1. Open `/reports` → **New report**
 2. Set **name** and optional description
 3. **Time frame**
    - Presets: last 24h, 7d, 30d, month-to-date, year-to-date, custom calendar range
@@ -43,7 +43,7 @@ Let the user build, save, and re-run energy reports from a dedicated UI. Each re
 
 - One-click run with stored definition
 - “Run with overrides” — temporary date range without saving
-- Export: CSV per table block; PDF deferred
+- Export: CSV for table block; PDF deferred
 
 ### Manage reports
 
@@ -55,16 +55,16 @@ Let the user build, save, and re-run energy reports from a dedicated UI. Each re
 
 | Key | Label (IT) | Source | Unit |
 |-----|------------|--------|------|
-| `production` | Produzione | `energy_samples_minute.production_w` | W / kWh |
-| `consumption` | Consumo | `energy_samples_minute.consumption_w` | W / kWh |
-| `battery_soc` | Stato di carica batteria | `energy_samples_minute.battery_soc` | % |
-| `battery_power` | Potenza batteria | `energy_samples_minute.battery_power_w` | W |
-| `grid_import` | Prelievo rete | `energy_samples_minute.grid_import_w` | W / kWh |
-| `grid_export` | Immissione rete | `energy_samples_minute.grid_export_w` | W / kWh |
-| `net_import` | Prelievo rete (derivato) | `consumption - production` when positive | W / kWh |
-| `self_consumption` | Autoconsumo (derivato) | `min(production, consumption)` | kWh |
-| `production_total` | Energia prodotta (aggregato) | F1 `energy_totals` | kWh |
-| `consumption_total` | Energia consumata (aggregato) | F1 `energy_totals` | kWh |
+| `production` | Production | `energy_samples_minute.production_w` | W / kWh |
+| `consumption` | Consumption | `energy_samples_minute.consumption_w` | W / kWh |
+| `battery_soc` | Battery charge state | `energy_samples_minute.battery_soc` | % |
+| `battery_power` | Battery power | `energy_samples_minute.battery_power_w` | W |
+| `grid_import` | Grid import | `energy_samples_minute.grid_import_w` | W / kWh |
+| `grid_export` | Grid export | `energy_samples_minute.grid_export_w` | W / kWh |
+| `net_import` | Grid import (derived) | `consumption - production` when positive | W / kWh |
+| `self_consumption` | Self-consumption (derived) | `min(production, consumption)` | kWh |
+| `production_total` | Produced energy (aggregated) | F1 `energy_totals` | kWh |
+| `consumption_total` | Consumed energy (aggregated) | F1 `energy_totals` | kWh |
 
 Future blocks (phase-gated): weather columns (F4), forecast line (F5), classification pie (F3).
 
@@ -124,7 +124,7 @@ Validate with `reportDefinitionSchema` in `src/features/reports/schema.ts` (not 
 | `reports.maxCustomRangeDays` | `365` | Cap custom date span |
 | `reports.cacheRunMinutes` | `5` | Optional server cache for identical run params |
 
-Expose in Settings under **Report** section (Italian labels).
+Expose in Settings under **Report** section (English labels).
 
 ## Architecture
 
@@ -154,7 +154,7 @@ src/features/reports/
 
 - [ ] CRUD for saved report definitions (MySQL `report_definitions`)
 - [ ] Builder UI: add/remove/reorder metric blocks; preset + custom time frame
-- [ ] Run report renders all visible blocks with correct units and Italian labels
+- [ ] Run report renders all visible blocks with correct units and English labels
 - [ ] Comparison period shown as dashed overlay or delta column when enabled
 - [ ] CSV export for table blocks
 - [ ] `reportDefinitionSchema` validation on save and run

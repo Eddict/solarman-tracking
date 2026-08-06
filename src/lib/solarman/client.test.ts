@@ -9,12 +9,12 @@ import {
 } from '@/lib/solarman/client'
 
 describe('hashPassword', () => {
-  it('mantiene password già hashate', () => {
+  it('preserves already hashed passwords', () => {
     const hashed = 'a'.repeat(64)
     expect(hashPassword(hashed)).toBe(hashed)
   })
 
-  it('applica sha256 alle password in chiaro', () => {
+  it('applies sha256 to plain-text passwords', () => {
     expect(hashPassword('test')).toBe(
       '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08',
     )
@@ -22,7 +22,7 @@ describe('hashPassword', () => {
 })
 
 describe('mapRealtimeToSample', () => {
-  it('mappa i campi realtime', () => {
+  it('maps realtime fields', () => {
     const sample = mapRealtimeToSample({
       stationId: 42,
       payload: {
@@ -45,7 +45,7 @@ describe('mapRealtimeToSample', () => {
     expect(sample?.recordedAt).toBeInstanceOf(Date)
   })
 
-  it('mappa i campi rete e batteria separati', () => {
+  it('maps grid and battery fields separately', () => {
     const sample = mapRealtimeToSample({
       stationId: 42,
       payload: {
@@ -73,7 +73,7 @@ describe('mapRealtimeToSample', () => {
 })
 
 describe('mapDailyEnergyItem', () => {
-  it('mappa i totali giornalieri in kWh', () => {
+  it('maps daily totals to kWh', () => {
     const daily = mapDailyEnergyItem({
       year: 2019,
       month: 12,
@@ -93,20 +93,20 @@ describe('mapDailyEnergyItem', () => {
     })
   })
 
-  it('ignora righe senza data', () => {
+  it('ignores lines without a date', () => {
     expect(mapDailyEnergyItem({ generationValue: 10 })).toBeNull()
   })
 })
 
 describe('kwhToWh', () => {
-  it('converte kWh in Wh', () => {
+  it('converts kWh to Wh', () => {
     expect(kwhToWh(12.3)).toBe(12300)
     expect(kwhToWh(null)).toBe(0)
   })
 })
 
 describe('mapHistoryItemsToSamples', () => {
-  it('usa dateTime quando presente', () => {
+  it('uses dateTime when present', () => {
     const [sample] = mapHistoryItemsToSamples({
       stationId: 7,
       items: [
@@ -128,7 +128,7 @@ describe('mapHistoryItemsToSamples', () => {
     expect(sample?.recordedAt.toISOString()).toBe('2024-06-01T10:15:00.000Z')
   })
 
-  it('usa dateTime numerico come unix seconds', () => {
+  it('uses numeric dateTime as unix seconds', () => {
     const [sample] = mapHistoryItemsToSamples({
       stationId: 7,
       items: [
@@ -145,7 +145,7 @@ describe('mapHistoryItemsToSamples', () => {
     expect(sample?.recordedAt.toISOString()).toBe('2026-06-30T22:00:00.000Z')
   })
 
-  it('normalizza realtime nello stesso bucket del frame', () => {
+  it('normalizes realtime into the same frame bucket', () => {
     const sample = mapRealtimeToSample({
       stationId: 42,
       payload: {
@@ -161,7 +161,7 @@ describe('mapHistoryItemsToSamples', () => {
     expect(sample?.recordedAt.toISOString()).toBe('2026-07-02T20:15:00.000Z')
   })
 
-  it('ignora righe senza timestamp', () => {
+  it('ignores lines without a timestamp', () => {
     const samples = mapHistoryItemsToSamples({
       stationId: 7,
       items: [{ generationPower: 100 }],

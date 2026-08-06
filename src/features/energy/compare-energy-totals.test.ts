@@ -11,26 +11,26 @@ import {
 } from '@/features/energy/server/compare-energy-totals'
 
 describe('buildDateRange', () => {
-  it('restituisce gli ultimi N giorni in ordine cronologico', () => {
+  it('returns the last N days in chronological order', () => {
     const now = new Date('2026-07-06T15:00:00.000Z')
     expect(buildDateRange(3, now)).toEqual(['2026-07-04', '2026-07-05', '2026-07-06'])
   })
 })
 
 describe('expectedSamplesForDay', () => {
-  it('usa 288 campioni per i giorni completi', () => {
+  it('uses 288 samples for complete days', () => {
     const now = new Date('2026-07-06T15:00:00.000Z')
     expect(expectedSamplesForDay('2026-07-05', now)).toBe(288)
   })
 
-  it('scala i campioni attesi per il giorno corrente', () => {
+  it('scales the expected samples for the current day', () => {
     const now = new Date('2026-07-06T01:10:00.000Z')
     expect(expectedSamplesForDay('2026-07-06', now)).toBe(14)
   })
 })
 
 describe('assessDayCoverage', () => {
-  it('considera sufficiente la copertura sopra l 80%', () => {
+  it('considers coverage sufficient above 80%', () => {
     const now = new Date('2026-07-06T15:00:00.000Z')
     const coverage = assessDayCoverage('2026-07-05', 240, now)
 
@@ -38,7 +38,7 @@ describe('assessDayCoverage', () => {
     expect(coverage.sufficient).toBe(true)
   })
 
-  it('richiede backfill sotto la soglia', () => {
+  it('requires backfill below the threshold', () => {
     const now = new Date('2026-07-06T15:00:00.000Z')
     const coverage = assessDayCoverage('2026-07-05', 100, now)
 
@@ -47,7 +47,7 @@ describe('assessDayCoverage', () => {
 })
 
 describe('computeDeltaPct', () => {
-  it('calcola la differenza percentuale', () => {
+  it('calculates the percentage difference', () => {
     expect(computeDeltaPct(1050, 1000)).toBeCloseTo(5)
     expect(computeDeltaPct(0, 0)).toBe(0)
     expect(computeDeltaPct(100, 0)).toBeNull()
@@ -55,7 +55,7 @@ describe('computeDeltaPct', () => {
 })
 
 describe('dailyEnergyToWh', () => {
-  it('converte i totali giornalieri in Wh', () => {
+  it('converts daily totals to Wh', () => {
     expect(
       dailyEnergyToWh({
         producedKwh: 12.3,
@@ -73,7 +73,7 @@ describe('dailyEnergyToWh', () => {
 })
 
 describe('exceedsTolerance', () => {
-  it('rileva delta oltre la tolleranza', () => {
+  it('detects deltas beyond tolerance', () => {
     const result: CompareEnergyTotalsResult = {
       days: [
         {
@@ -121,7 +121,7 @@ describe('exceedsTolerance', () => {
     expect(exceedsTolerance(result)).toBe(true)
   })
 
-  it('ignora i giorni senza dati API', () => {
+  it('ignores days without API data', () => {
     const result: CompareEnergyTotalsResult = {
       days: [
         {

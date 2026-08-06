@@ -25,19 +25,19 @@ export function evaluateBatteryAlerts(
 
   const alerts: BatteryAlert[] = []
   const soc = sample.batterySoc
-  const time = sample.recordedAt.toLocaleString('it-IT')
+  const time = sample.recordedAt.toLocaleString('en-GB')
 
   if (soc <= config.battery.socLow) {
     alerts.push({
       type: 'soc_low',
-      message: `⚠️ <b>Batteria bassa</b>\nSOC: ${soc.toFixed(0)}% (soglia ${config.battery.socLow}%)\n${time}`,
+      message: `⚠️ <b>Low battery</b>\nSOC: ${soc.toFixed(0)}% (threshold ${config.battery.socLow}%)\n${time}`,
     })
   }
 
   if (soc >= config.battery.socHigh) {
     alerts.push({
       type: 'soc_high',
-      message: `✅ <b>Batteria piena</b>\nSOC: ${soc.toFixed(0)}% (soglia ${config.battery.socHigh}%)\n${time}`,
+      message: `✅ <b>Battery full</b>\nSOC: ${soc.toFixed(0)}% (threshold ${config.battery.socHigh}%)\n${time}`,
     })
   }
 

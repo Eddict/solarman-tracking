@@ -9,7 +9,6 @@ import {
   type CompareEnergyTotalsResult,
   type DayComparison,
   type DayDeltaPct,
-  type DayEnergyWh,
 } from '@/features/energy/server/compare-energy-totals'
 
 const days = Number(process.argv[2] ?? DEFAULT_COMPARE_DAYS)
@@ -20,7 +19,7 @@ async function main() {
 
   if (exceedsTolerance(result)) {
     console.error(
-      `\n[compare:totals] Almeno una metrica supera la tolleranza del ${DELTA_TOLERANCE_PCT}%`,
+      `\n[compare:totals] At least one metric exceeds the ${DELTA_TOLERANCE_PCT}% tolerance`,
     )
     process.exitCode = 1
   }
@@ -29,7 +28,7 @@ async function main() {
 }
 
 function printReport(result: CompareEnergyTotalsResult) {
-  console.log('[compare:totals] Confronto energia: campioni integrati vs API giornaliera Solarman\n')
+  console.log('[compare:totals] Energy comparison: minute samples vs Solarman daily API\n')
 
   for (const day of result.days) {
     printDay(day)
@@ -45,42 +44,42 @@ function printDay(day: DayComparison) {
   console.log(`Data: ${day.date}  Campioni: ${samples}`)
 
   if (!day.api) {
-    console.log('  API: nessun dato giornaliero disponibile')
-    printMetricRow('  Produzione', day.minute.producedWh, null, null)
-    printMetricRow('  Consumo', day.minute.consumedWh, null, null)
-    printMetricRow('  Prelievo rete', day.minute.importedWh, null, null)
-    printMetricRow('  Immissione rete', day.minute.exportedWh, null, null)
+    console.log('  API: no daily data available')
+    printMetricRow('  Production', day.minute.producedWh, null, null)
+    printMetricRow('  Consumption', day.minute.consumedWh, null, null)
+    printMetricRow('  Grid import', day.minute.importedWh, null, null)
+    printMetricRow('  Grid export', day.minute.exportedWh, null, null)
     return
   }
 
-  printMetricRow('  Produzione', day.minute.producedWh, day.api.producedWh, day.deltaPct.produced)
-  printMetricRow('  Consumo', day.minute.consumedWh, day.api.consumedWh, day.deltaPct.consumed)
-  printMetricRow('  Prelievo rete', day.minute.importedWh, day.api.importedWh, day.deltaPct.imported)
-  printMetricRow('  Immissione rete', day.minute.exportedWh, day.api.exportedWh, day.deltaPct.exported)
+  printMetricRow('  Production', day.minute.producedWh, day.api.producedWh, day.deltaPct.produced)
+  printMetricRow('  Consumption', day.minute.consumedWh, day.api.consumedWh, day.deltaPct.consumed)
+  printMetricRow('  Grid import', day.minute.importedWh, day.api.importedWh, day.deltaPct.imported)
+  printMetricRow('  Grid export', day.minute.exportedWh, day.api.exportedWh, day.deltaPct.exported)
 }
 
 function printWeekTotals(result: CompareEnergyTotalsResult) {
-  console.log('Totale periodo')
+  console.log('Period total')
   printMetricRow(
-    '  Produzione',
+    '  Production',
     result.weekMinute.producedWh,
     result.weekApi.producedWh,
     computeWeekDelta(result.weekMinute.producedWh, result.weekApi.producedWh),
   )
   printMetricRow(
-    '  Consumo',
+    '  Consumption',
     result.weekMinute.consumedWh,
     result.weekApi.consumedWh,
     computeWeekDelta(result.weekMinute.consumedWh, result.weekApi.consumedWh),
   )
   printMetricRow(
-    '  Prelievo rete',
+    '  Grid import',
     result.weekMinute.importedWh,
     result.weekApi.importedWh,
     computeWeekDelta(result.weekMinute.importedWh, result.weekApi.importedWh),
   )
   printMetricRow(
-    '  Immissione rete',
+    '  Grid export',
     result.weekMinute.exportedWh,
     result.weekApi.exportedWh,
     computeWeekDelta(result.weekMinute.exportedWh, result.weekApi.exportedWh),
@@ -89,11 +88,11 @@ function printWeekTotals(result: CompareEnergyTotalsResult) {
 
 function printBackfillSummary(result: CompareEnergyTotalsResult) {
   if (!result.backfillRan) {
-    console.log('\nBackfill: non necessario')
+    console.log('\nBackfill: not needed')
     return
   }
 
-  console.log(`\nBackfill: eseguito (${result.backfillInserted} righe inserite/aggiornate)`)
+  console.log(`\nBackfill: eseguito (${result.backfillInserted} lines inserite/aggiornate)`)
 }
 
 function printMetricRow(

@@ -39,7 +39,7 @@ Lighter weight: isolated chart and KPI stories with mock props. Less impressive 
 
 - [ ] Mock dataset (`demo/fixtures/` or `public/demo-data.json`) — no real plant identifiers
 - [ ] Demo entry route or standalone Vite app reusing `src/features/energy/` presentation components
-- [ ] Banner: “Dati dimostrativi — non collegato a Solarman”
+- [ ] Banner: “Demo data — not connected to Solarman”
 - [ ] `.github/workflows/pages.yml` — build + deploy on push to `main` (path filter: `demo/**`, shared components)
 - [ ] README link: “[Live demo](https://anrighi.github.io/solarman-tracking/)”
 - [ ] Social preview / README screenshots generated from the same demo build

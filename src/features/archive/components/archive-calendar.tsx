@@ -7,36 +7,36 @@ const STATE_STYLES: Record<
   missing: {
     bg: 'bg-slate-100',
     border: 'border-slate-200',
-    label: 'Assente',
+    label: 'Missing',
   },
   localOnly: {
     bg: 'bg-sky-100',
     border: 'border-sky-300',
-    label: 'Solo locale',
+    label: 'Local only',
   },
   s3Only: {
     bg: 'bg-violet-100',
     border: 'border-violet-300',
-    label: 'Solo S3',
+    label: 'S3 only',
   },
   synced: {
     bg: 'bg-emerald-100',
     border: 'border-emerald-300',
-    label: 'Sincronizzato',
+    label: 'Synced',
   },
   mismatch: {
     bg: 'bg-amber-100',
     border: 'border-amber-300',
-    label: 'Differenza',
+    label: 'Mismatch',
   },
   partial: {
     bg: 'bg-orange-100',
     border: 'border-orange-300',
-    label: 'Parziale',
+    label: 'Partial',
   },
 }
 
-const WEEKDAY_LABELS = ['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom']
+const WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
 type ArchiveCalendarProps = {
   year: number
@@ -100,7 +100,7 @@ export function ArchiveCalendar({
               key={day.date}
               type="button"
               onClick={() => onToggle(day.date)}
-              title={`${day.date}: ${style.label} · locale ${day.localCount}${day.s3RowCount !== null && day.s3RowCount >= 0 ? ` · S3 ${day.s3RowCount}` : ''}`}
+              title={`${day.date}: ${style.label} · local ${day.localCount}${day.s3RowCount !== null && day.s3RowCount >= 0 ? ` · S3 ${day.s3RowCount}` : ''}`}
               className={`min-h-16 rounded-lg border p-2 text-left transition ${style.bg} ${style.border} ${
                 isSelected ? 'ring-2 ring-amber-500 ring-offset-1' : ''
               }`}
@@ -129,7 +129,7 @@ export function ArchiveCalendar({
             onClick={onClearSelection}
             className="ml-auto text-xs text-amber-700 hover:underline"
           >
-            Deseleziona ({selected.size})
+            Clear selection ({selected.size})
           </button>
         ) : null}
       </div>

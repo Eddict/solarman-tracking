@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { envSchema } from '@/lib/env'
 
 describe('envSchema', () => {
-  it('applica default per MySQL in dev locale', () => {
+  it('applies MySQL defaults in local dev', () => {
     const parsed = envSchema.parse({})
 
     expect(parsed.MYSQL_HOST).toBe('127.0.0.1')
@@ -11,7 +11,7 @@ describe('envSchema', () => {
     expect(parsed.NODE_ENV).toBe('development')
   })
 
-  it('accetta override Docker con host mysql', () => {
+  it('accepts Docker overrides with mysql host', () => {
     const parsed = envSchema.parse({
       MYSQL_HOST: 'mysql',
       MYSQL_USER: 'solartracking',
@@ -22,9 +22,9 @@ describe('envSchema', () => {
     expect(parsed.MYSQL_HOST).toBe('mysql')
   })
 
-  it('rifiuta email Solarman non valida', () => {
+  it('rejects an invalid Solarman email', () => {
     expect(() =>
-      envSchema.parse({ SOLARMAN_EMAIL: 'non-email' }),
+      envSchema.parse({ SOLARMAN_EMAIL: 'not-an-email' }),
     ).toThrow()
   })
 })

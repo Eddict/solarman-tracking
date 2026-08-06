@@ -24,7 +24,7 @@ export function SettingsSaveBar({
         className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 font-medium text-white hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-60"
       >
         <Save className="h-4 w-4" />
-        {isSaving ? 'Salvataggio...' : 'Salva'}
+        {isSaving ? 'Saving...' : 'Save'}
       </button>
       <button
         type="button"
@@ -32,7 +32,7 @@ export function SettingsSaveBar({
         className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 hover:bg-slate-50"
       >
         <RotateCcw className="h-4 w-4" />
-        Ripristina default
+        Reset to defaults
       </button>
       <button
         type="button"
@@ -40,10 +40,10 @@ export function SettingsSaveBar({
         className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-700 hover:bg-slate-50"
       >
         <Download className="h-4 w-4" />
-        Esporta JSON
+        Export JSON
       </button>
       {isDirty ? (
-        <span className="text-sm text-amber-600">Modifiche non salvate</span>
+        <span className="text-sm text-amber-600">Unsaved changes</span>
       ) : null}
     </div>
   )

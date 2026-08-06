@@ -24,12 +24,12 @@ export type SeriesDefinition = {
 }
 
 export const CHART_SERIES: SeriesDefinition[] = [
-  { key: 'production', name: 'Produzione', stroke: '#f59e0b', yAxisId: 'power' },
-  { key: 'consumption', name: 'Consumo', stroke: '#3b82f6', yAxisId: 'power' },
-  { key: 'gridImport', name: 'Prelievo rete', stroke: '#ef4444', yAxisId: 'power' },
-  { key: 'gridExport', name: 'Immissione rete', stroke: '#14b8a6', yAxisId: 'power' },
-  { key: 'batteryPower', name: 'Potenza batteria', stroke: '#8b5cf6', yAxisId: 'power' },
-  { key: 'soc', name: 'SOC batteria', stroke: '#10b981', yAxisId: 'soc' },
+  { key: 'production', name: 'Production', stroke: '#f59e0b', yAxisId: 'power' },
+  { key: 'consumption', name: 'Consumption', stroke: '#3b82f6', yAxisId: 'power' },
+  { key: 'gridImport', name: 'Grid import', stroke: '#ef4444', yAxisId: 'power' },
+  { key: 'gridExport', name: 'Grid export', stroke: '#14b8a6', yAxisId: 'power' },
+  { key: 'batteryPower', name: 'Battery power', stroke: '#8b5cf6', yAxisId: 'power' },
+  { key: 'soc', name: 'Battery SOC', stroke: '#10b981', yAxisId: 'soc' },
 ]
 
 export const SERIES_KEYS: SeriesKey[] = CHART_SERIES.map((series) => series.key)

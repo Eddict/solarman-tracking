@@ -49,11 +49,11 @@ export async function getBackfillMonthStatus(
   now = new Date(),
 ): Promise<BackfillMonthSummary> {
   if (!Number.isInteger(year) || year < 2000 || year > 2100) {
-    throw new Error('Anno non valido')
+    throw new Error('Invalid year')
   }
 
   if (!Number.isInteger(month) || month < 1 || month > 12) {
-    throw new Error('Mese non valido')
+    throw new Error('Invalid month')
   }
 
   const stationId = getStationId()
@@ -83,11 +83,11 @@ export async function getBackfillMonthStatus(
 
 function validateDateKeys(dates: string[], now = new Date()) {
   if (!Array.isArray(dates) || dates.length === 0) {
-    throw new Error('Nessun giorno selezionato')
+    throw new Error('No days selected')
   }
 
   if (dates.length > MAX_RECOVER_DAYS) {
-    throw new Error(`Massimo ${MAX_RECOVER_DAYS} giorni per operazione`)
+    throw new Error(`Maximum ${MAX_RECOVER_DAYS} days per operation`)
   }
 
   const todayKey = formatUtcDayKey(now)
@@ -95,11 +95,11 @@ function validateDateKeys(dates: string[], now = new Date()) {
 
   for (const date of dates) {
     if (typeof date !== 'string' || !DATE_KEY_RE.test(date)) {
-      throw new Error(`Data non valida: ${String(date)}`)
+      throw new Error(`Invalid date: ${String(date)}`)
     }
 
     if (date > todayKey) {
-      throw new Error(`Impossibile recuperare un giorno futuro: ${date}`)
+      throw new Error(`Cannot restore a future day: ${date}`)
     }
 
     unique.add(date)
@@ -134,7 +134,7 @@ export async function recoverBackfillDays(
     recoveredDates: validDates,
     inserted,
     summary,
-    message: `Recuperati ${validDates.length} giorni (${inserted} righe elaborate)`,
+    message: `Recuperati ${validDates.length} days (${inserted} lines elaborate)`,
   }
 }
 

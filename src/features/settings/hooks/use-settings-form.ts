@@ -26,10 +26,10 @@ export function useSettingsForm(initialConfig: AppConfig) {
 
     try {
       await saveAppConfig({ data: config })
-      setMessage('Configurazione salvata.')
+      setMessage('Configuration saved.')
       await router.invalidate()
     } catch (error) {
-      const text = error instanceof Error ? error.message : 'Salvataggio non riuscito'
+      const text = error instanceof Error ? error.message : 'Save failed'
       setMessage(text)
     } finally {
       setIsSaving(false)

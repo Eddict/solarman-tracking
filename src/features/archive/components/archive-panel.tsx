@@ -22,18 +22,18 @@ type ArchivePanelProps = {
 }
 
 const MONTH_NAMES = [
-  'Gennaio',
-  'Febbraio',
-  'Marzo',
-  'Aprile',
-  'Maggio',
-  'Giugno',
-  'Luglio',
-  'Agosto',
-  'Settembre',
-  'Ottobre',
-  'Novembre',
-  'Dicembre',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ]
 
 export function ArchivePanel({
@@ -85,7 +85,7 @@ export function ArchivePanel({
       setSelected(new Set())
       setPendingHydrateDays(null)
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Cambio mese non riuscito')
+      setMessage(error instanceof Error ? error.message : 'Failed to change month')
     } finally {
       setIsBusy(false)
     }
@@ -93,12 +93,12 @@ export function ArchivePanel({
 
   async function handleExport(days: string[]) {
     if (days.length === 0) {
-      setMessage('Nessun giorno da esportare.')
+      setMessage('No days to export.')
       return
     }
 
     if (!actionsEnabled) {
-      setMessage('Abilita l’archivio e configura le credenziali Cubbit.')
+      setMessage('Enable archive and configure Cubbit credentials.')
       return
     }
 
@@ -113,10 +113,10 @@ export function ArchivePanel({
       onStatusChange(result.summary as ArchiveMonthSummary, result.runs as ArchiveRun[])
       setSelected(new Set())
       setMessage(
-        `Esportati ${result.result.daysProcessed} giorni (${result.result.rowsAffected} campioni).`,
+        `Exported ${result.result.daysProcessed} days (${result.result.rowsAffected} samples).`,
       )
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Esportazione non riuscita')
+      setMessage(error instanceof Error ? error.message : 'Export failed')
     } finally {
       setIsBusy(false)
     }
@@ -126,12 +126,12 @@ export function ArchivePanel({
     const sortedDays = [...days].sort()
 
     if (sortedDays.length === 0) {
-      setMessage('Nessun giorno da ripristinare.')
+      setMessage('No days to restore.')
       return
     }
 
     if (!actionsEnabled) {
-      setMessage('Abilita l’archivio e configura le credenziali Cubbit.')
+      setMessage('Enable archive and configure Cubbit credentials.')
       return
     }
 
@@ -145,7 +145,7 @@ export function ArchivePanel({
 
     if (hasLocal && !pendingMatches) {
       setPendingHydrateDays(sortedDays)
-      setMessage('Conferma: i giorni locali selezionati verranno sovrascritti da S3.')
+      setMessage('Confirm: the selected local days will be overwritten from S3.')
       return
     }
 
@@ -160,10 +160,10 @@ export function ArchivePanel({
       onStatusChange(result.summary as ArchiveMonthSummary, result.runs as ArchiveRun[])
       setSelected(new Set())
       setMessage(
-        `Ripristinati ${result.result.daysProcessed} giorni (${result.result.rowsAffected} righe).`,
+        `Restored ${result.result.daysProcessed} days (${result.result.rowsAffected} lines).`,
       )
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : 'Ripristino non riuscito')
+      setMessage(error instanceof Error ? error.message : 'Restore failed')
     } finally {
       setIsBusy(false)
     }
@@ -178,9 +178,9 @@ export function ArchivePanel({
       <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="text-lg font-semibold text-slate-800">Calendario archivio</h2>
+            <h2 className="text-lg font-semibold text-slate-800">Archive calendar</h2>
             <p className="text-sm text-slate-500">
-              Stazione {summary.stationId} · stato locale vs S3
+              Station {summary.stationId} · local vs S3 status
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -189,7 +189,7 @@ export function ArchivePanel({
               disabled={isBusy}
               onClick={() => shiftMonth(-1)}
               className="rounded-lg border border-slate-200 p-2 hover:bg-slate-50 disabled:opacity-50"
-              aria-label="Mese precedente"
+              aria-label="Previous month"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
@@ -201,7 +201,7 @@ export function ArchivePanel({
               disabled={isBusy}
               onClick={() => shiftMonth(1)}
               className="rounded-lg border border-slate-200 p-2 hover:bg-slate-50 disabled:opacity-50"
-              aria-label="Mese successivo"
+              aria-label="Next month"
             >
               <ChevronRight className="h-4 w-4" />
             </button>
@@ -224,7 +224,7 @@ export function ArchivePanel({
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-slate-800">Azioni</h2>
+        <h2 className="mb-4 text-lg font-semibold text-slate-800">Actions</h2>
         <div className="flex flex-wrap gap-3">
           <button
             type="button"
@@ -233,7 +233,7 @@ export function ArchivePanel({
             className="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 font-medium text-white hover:bg-amber-600 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <CloudUpload className="h-4 w-4" />
-            Carica su S3
+            Upload to S3
           </button>
           <button
             type="button"
@@ -242,7 +242,7 @@ export function ArchivePanel({
             className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium text-slate-800 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-60"
           >
             <HardDriveDownload className="h-4 w-4" />
-            {pendingHydrateDays ? 'Conferma ripristino' : 'Ripristina da S3'}
+            {pendingHydrateDays ? 'Confirm restore' : 'Restore from S3'}
           </button>
           <button
             type="button"
@@ -252,7 +252,7 @@ export function ArchivePanel({
             }
             className="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 disabled:opacity-60"
           >
-            Esporta mese
+            Export month
           </button>
           <button
             type="button"
@@ -262,26 +262,26 @@ export function ArchivePanel({
             }
             className="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 disabled:opacity-60"
           >
-            Ripristina mese
+            Restore month
           </button>
         </div>
         {message ? <p className="mt-3 text-sm text-slate-600">{message}</p> : null}
         {!config.archive.enabled ? (
           <p className="mt-3 text-sm text-amber-700">
-            Archivio disabilitato: attiva l’interruttore nella policy sopra.
+            Archive disabled: enable the switch in the policy above.
           </p>
         ) : null}
         {config.archive.enabled && !summary.s3Configured ? (
           <p className="mt-3 text-sm text-amber-700">
-            Credenziali Cubbit assenti (`CUBBIT_ACCESS_KEY_ID` / `CUBBIT_SECRET_ACCESS_KEY`).
+            Cubbit credentials missing (`CUBBIT_ACCESS_KEY_ID` / `CUBBIT_SECRET_ACCESS_KEY`).
           </p>
         ) : null}
       </section>
 
       <section className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
-        <h2 className="mb-4 text-lg font-semibold text-slate-800">Ultime operazioni</h2>
+        <h2 className="mb-4 text-lg font-semibold text-slate-800">Recent operations</h2>
         {runs.length === 0 ? (
-          <p className="text-sm text-slate-500">Nessuna operazione registrata.</p>
+          <p className="text-sm text-slate-500">No operations recorded.</p>
         ) : (
           <ul className="divide-y divide-slate-100">
             {runs.map((run) => (
@@ -295,8 +295,8 @@ export function ArchivePanel({
                   </span>
                   <span className="text-slate-500">
                     {' '}
-                    {run.dayFrom} → {run.dayTo} · {run.daysCount} giorni · {run.rowsAffected}{' '}
-                    righe
+                    {run.dayFrom} → {run.dayTo} · {run.daysCount} days · {run.rowsAffected}{' '}
+                    lines
                   </span>
                   {run.errorMessage ? (
                     <div className="text-xs text-rose-600">{run.errorMessage}</div>
@@ -320,15 +320,15 @@ function StatusStrip({ summary }: { summary: ArchiveMonthSummary }) {
       <div>
         S3:{' '}
         {!summary.s3Configured
-          ? 'non configurato'
+          ? 'not configured'
           : summary.s3Reachable
-            ? 'raggiungibile'
-            : `errore${summary.s3Error ? ` (${summary.s3Error})` : ''}`}
+            ? 'reachable'
+            : `error${summary.s3Error ? ` (${summary.s3Error})` : ''}`}
       </div>
-      <div>Sincronizzati: {summary.counts.synced}</div>
-      <div>Solo locale: {summary.counts.localOnly}</div>
+      <div>Synced: {summary.counts.synced}</div>
+      <div>Local only: {summary.counts.localOnly}</div>
       <div>
-        Solo S3 / diff: {summary.counts.s3Only} / {summary.counts.mismatch}
+        S3 only / mismatch: {summary.counts.s3Only} / {summary.counts.mismatch}
       </div>
     </div>
   )

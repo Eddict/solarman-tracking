@@ -46,7 +46,7 @@ function normalizeEndpoint(endpoint: string) {
 
 export function createArchiveS3Client(config = getArchiveS3Config()) {
   if (!config) {
-    throw new Error('Credenziali Cubbit S3 non configurate')
+    throw new Error('Cubbit S3 credentials not configured')
   }
 
   return {
@@ -174,7 +174,7 @@ export async function checkArchiveS3Reachable() {
     await client.send(new HeadBucketCommand({ Bucket: bucket }))
     return { configured: true, reachable: true, error: null }
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Errore S3 sconosciuto'
+    const message = error instanceof Error ? error.message : 'Unknown S3 error'
     return { configured: true, reachable: false, error: message }
   }
 }

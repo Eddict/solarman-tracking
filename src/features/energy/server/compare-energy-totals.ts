@@ -179,7 +179,7 @@ export async function compareEnergyTotals(options?: {
   now?: Date
 }): Promise<CompareEnergyTotalsResult> {
   if (!isSolarmanConfigured()) {
-    throw new Error('Credenziali Solarman mancanti — confronto non disponibile')
+    throw new Error('Missing Solarman credentials — comparison unavailable')
   }
 
   const now = options?.now ?? new Date()

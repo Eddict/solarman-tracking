@@ -21,12 +21,12 @@ export function ArchivePolicySection({ config: initialConfig }: ArchivePolicySec
   return (
     <>
       <Section
-        title="Policy archivio"
-        description="Abilita esportazione/ripristino giorno su Cubbit e indica la finestra calda locale suggerita."
+        title="Archive policy"
+        description="Enables day export/restore to Cubbit and indicates the suggested local hot window."
       >
         <ToggleField
-          label="Archivio S3 abilitato"
-          description="Permette esportazione e ripristino da Impostazioni → Archivio"
+          label="S3 archive enabled"
+          description="Allows export and restore from Settings → Archive"
           checked={config.archive?.enabled ?? false}
           onChange={(checked) =>
             setConfig({
@@ -39,13 +39,13 @@ export function ArchivePolicySection({ config: initialConfig }: ArchivePolicySec
           }
         />
         <SliderField
-          label="Finestra calda locale"
+          label="Local hot window"
           value={config.archive?.hotRetentionDays ?? 90}
           min={7}
           max={365}
           step={1}
-          unit=" giorni"
-          hint="Indicazione operativa: i giorni più vecchi possono vivere su S3 (prune automatico non attivo in F16)"
+          unit=" days"
+          hint="Operational note: older days can live on S3 (automatic pruning is not active in F16)"
           onChange={(value) =>
             setConfig({
               ...config,

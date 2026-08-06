@@ -91,7 +91,7 @@ export async function syncSolarmanMinute(options?: {
       return {
         inserted,
         mode: 'mock' as const,
-        message: 'Dati demo generati (configura Solarman in .env per dati reali)',
+        message: 'Demo data generated (configure Solarman in .env for real data)',
       }
     }
 
@@ -155,10 +155,10 @@ export async function syncSolarmanMinute(options?: {
     return {
       inserted,
       mode: 'live' as const,
-      message: `Sync completata (${inserted} righe elaborate)`,
+      message: `Sync completed (${inserted} rows processed)`,
     }
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Errore sync sconosciuto'
+    const message = error instanceof Error ? error.message : 'Unknown sync error'
 
     await updateSyncState({
       jobName: JOB_NAME,

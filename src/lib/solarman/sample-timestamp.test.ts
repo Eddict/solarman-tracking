@@ -6,7 +6,7 @@ import {
 } from '@/lib/solarman/sample-timestamp'
 
 describe('normalizeToSampleBucket', () => {
-  it('allinea al bucket da 5 minuti', () => {
+  it('aligns to the 5-minute bucket', () => {
     const frame = new Date('2026-07-02T20:15:00.000Z')
     const realtime = new Date('2026-07-02T20:15:03.000Z')
 
@@ -14,7 +14,7 @@ describe('normalizeToSampleBucket', () => {
     expect(normalizeToSampleBucket(realtime)).toEqual(frame)
   })
 
-  it('collassa realtime e frame nello stesso bucket', () => {
+  it('collapses realtime and frame into the same bucket', () => {
     const frame = new Date('2026-07-03T04:55:00.000Z')
     const realtimeA = new Date('2026-07-03T04:55:38.000Z')
     const realtimeB = new Date('2026-07-03T04:55:39.000Z')
@@ -25,7 +25,7 @@ describe('normalizeToSampleBucket', () => {
 })
 
 describe('isOnSampleBucketBoundary', () => {
-  it('rileva timestamp gia allineati', () => {
+  it('detects timestamps already aligned', () => {
     const aligned = new Date('2026-07-02T20:20:00.000Z')
     const shifted = new Date('2026-07-02T20:20:05.000Z')
 
