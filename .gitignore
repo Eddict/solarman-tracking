@@ -20,3 +20,4 @@ backups/
 solar-tracking-phased_*.plan.md
 .vscode/
 pnpm.log
+/*.log
