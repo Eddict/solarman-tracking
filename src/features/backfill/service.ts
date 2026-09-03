@@ -19,7 +19,7 @@ import { getStationId, syncSolarmanMinute } from '@/server/jobs/sync-solarman'
 
 const DATE_KEY_RE = /^\d{4}-\d{2}-\d{2}$/
 const MAX_RECOVER_DAYS = 31
-const DEFAULT_FULL_BACKFILL_DAYS = 365
+const DEFAULT_FULL_BACKFILL_DAYS = 3653
 
 function toIsoOrNull(value: Date | null) {
   if (!value) {
@@ -134,7 +134,7 @@ export async function recoverBackfillDays(
     recoveredDates: validDates,
     inserted,
     summary,
-    message: `Recuperati ${validDates.length} days (${inserted} lines elaborate)`,
+    message: `Recovered ${validDates.length} days (${inserted} lines processed)`,
   }
 }
 

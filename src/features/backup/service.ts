@@ -46,16 +46,13 @@ export async function dumpDatabase() {
   const gzFile = path.join(BACKUP_DIR, filename)
 
   const dumpCmd = [
-    'mysqldump',
-    `-h${env.MYSQL_HOST}`,
-    `-P${env.MYSQL_PORT}`,
-    `-u${env.MYSQL_USER}`,
-    `-p${env.MYSQL_PASSWORD}`,
-    '--skip-ssl',
-    '--no-tablespaces',
-    '--single-transaction',
-    '--routines',
-    env.MYSQL_DATABASE,
+    'mssql-scripter',
+    `-S "${env.MSSQL_SERVER},${env.MSSQL_PORT}"`,
+    `-d "${env.MSSQL_DATABASE}"`,
+    `-U "${env.MSSQL_USER}"`,
+    `-P "${env.MSSQL_PASSWORD}"`,
+    '--schema',
+    '--data',
     `> "${sqlFile}"`,
   ].join(' ')
 
@@ -92,14 +89,12 @@ export async function restoreDatabase(inputPath: string) {
   }
 
   const restoreCmd = [
-    'mysql',
-    `-h${env.MYSQL_HOST}`,
-    `-P${env.MYSQL_PORT}`,
-    `-u${env.MYSQL_USER}`,
-    `-p${env.MYSQL_PASSWORD}`,
-    '--skip-ssl',
-    env.MYSQL_DATABASE,
-    `< "${sqlPath}"`,
+    'sqlcmd',
+    `-S "${env.MSSQL_SERVER},${env.MSSQL_PORT}"`,
+    `-d "${env.MSSQL_DATABASE}"`,
+    `-U "${env.MSSQL_USER}"`,
+    `-P "${env.MSSQL_PASSWORD}"`,
+    `-i "${sqlPath}"`,
   ].join(' ')
 
   execSync(restoreCmd, { stdio: 'inherit', shell: '/bin/sh' })

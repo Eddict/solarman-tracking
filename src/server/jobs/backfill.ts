@@ -25,6 +25,21 @@ export type BackfillResult = {
   message: string
 }
 
+export function summarizeHistoryPayload(payload: unknown) {
+  const record = payload as Record<string, unknown> | null
+  const stationDataItems = Array.isArray(record?.stationDataItems)
+    ? record.stationDataItems.length
+    : 0
+
+  const keys = Object.keys(record ?? {}).sort()
+
+  return {
+    keys,
+    stationDataItems,
+    hasStationDataItems: stationDataItems > 0,
+  }
+}
+
 function createSolarmanClient(stationId: number) {
   const config: SolarmanClientConfig = {
     apiUrl: env.SOLARMAN_API_URL ?? 'https://globalapi.solarmanpv.com',
@@ -89,7 +104,7 @@ export async function runCheckpointBackfill(options?: {
         no_data_before: checkpoint.no_data_before,
       }
     : null
-  const maxDays = options?.maxDays ?? 365
+  const maxDays = options?.maxDays ?? 7305
   const now = new Date()
 
   let inserted = 0
@@ -125,6 +140,13 @@ export async function runCheckpointBackfill(options?: {
 
     if (samples.length === 0) {
       emptyStreak += 1
+      const payloadSummary = summarizeHistoryPayload(history)
+      console.warn('[backfill] empty day', {
+        day: dayStr,
+        emptyStreak,
+        maxConsecutiveEmptyDays: config.backfill.maxConsecutiveEmptyDays,
+        payloadSummary,
+      })
 
       if (emptyStreak >= config.backfill.maxConsecutiveEmptyDays) {
         await upsertBackfillCheckpoint({
@@ -136,7 +158,7 @@ export async function runCheckpointBackfill(options?: {
           inserted,
           daysProcessed,
           stoppedReason: 'empty_streak',
-          message: `Backfill stopped: ${emptyStreak} consecutive empty days`,
+          message: `Backfill stopped: ${emptyStreak} consecutive empty days (day=${dayStr})`,
         }
       }
 
@@ -174,7 +196,7 @@ export async function runCheckpointBackfill(options?: {
     inserted,
     daysProcessed,
     stoppedReason: 'completed_batch',
-    message: `Backfill batch completato (${daysProcessed} days, ${inserted} lines)`,
+    message: `Backfill batch completed (${daysProcessed} days, ${inserted} lines)`,
   }
 }
 

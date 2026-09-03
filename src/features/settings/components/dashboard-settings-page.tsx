@@ -13,7 +13,7 @@ import {
 } from '@/features/settings/components/settings-save-bar'
 
 const DASHBOARD_RANGE_OPTIONS = [
-  { label: '24 ore', value: 24 },
+  { label: '24 hours', value: 24 },
   { label: '7 days', value: 24 * 7 },
   { label: '30 days', value: 24 * 30 },
   { label: '90 days', value: 24 * 90 },

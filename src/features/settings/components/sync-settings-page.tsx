@@ -15,11 +15,11 @@ import {
 
 const SYNC_INTERVAL_OPTIONS = [
   { label: '1 minuto', value: 60_000 },
-  { label: '5 minuti', value: 300_000 },
-  { label: '10 minuti', value: 600_000 },
-  { label: '15 minuti', value: 900_000 },
-  { label: '30 minuti', value: 1_800_000 },
-  { label: '60 minuti', value: 3_600_000 },
+  { label: '5 minutes', value: 300_000 },
+  { label: '10 minutes', value: 600_000 },
+  { label: '15 minutes', value: 900_000 },
+  { label: '30 minutes', value: 1_800_000 },
+  { label: '60 minutes', value: 3_600_000 },
 ]
 
 type SyncSettingsPageProps = {
@@ -73,7 +73,7 @@ export function SyncSettingsPage({
           label="Empty days before stopping"
           value={config.backfill.maxConsecutiveEmptyDays}
           min={1}
-          max={90}
+          max={7305}
           step={1}
           unit=" days"
           hint="The full backfill stops after this sequence of days without data"

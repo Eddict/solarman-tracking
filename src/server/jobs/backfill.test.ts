@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { isDayCovered } from '@/server/jobs/backfill'
+import { isDayCovered, summarizeHistoryPayload } from '@/server/jobs/backfill'
 
 describe('isDayCovered', () => {
   const checkpoint = {
@@ -27,5 +27,18 @@ describe('isDayCovered', () => {
   it('returns false when checkpoint is null', () => {
     const day = new Date('2026-06-05T00:00:00Z')
     expect(isDayCovered(day, null)).toBe(false)
+  })
+})
+
+describe('summarizeHistoryPayload', () => {
+  it('summarizes station data items and keys', () => {
+    const summary = summarizeHistoryPayload({
+      stationDataItems: [{ foo: 'bar' }],
+      other: true,
+    })
+
+    expect(summary.stationDataItems).toBe(1)
+    expect(summary.hasStationDataItems).toBe(true)
+    expect(summary.keys).toEqual(['other', 'stationDataItems'])
   })
 })

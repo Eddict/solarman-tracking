@@ -3,12 +3,15 @@ import { z } from 'zod';
 export const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.string().default('3000'),
+  USE_LOCALE: z.string().default('en-US'),
 
-  MYSQL_HOST: z.string().default('127.0.0.1'),
-  MYSQL_PORT: z.string().default('3306'),
-  MYSQL_USER: z.string().default('solartracking'),
-  MYSQL_PASSWORD: z.string().default('solartracking_pwd'),
-  MYSQL_DATABASE: z.string().default('solar_tracking'),
+  MSSQL_SERVER: z.string().default('127.0.0.1'),
+  MSSQL_PORT: z.string().default('1433'),
+  MSSQL_USER: z.string().default('solartracking'),
+  MSSQL_PASSWORD: z.string().default('solartracking_pwd'),
+  MSSQL_DATABASE: z.string().default('solar_tracking'),
+  MSSQL_ENCRYPT: z.string().default('false'),
+  MSSQL_TRUST_SERVER_CERTIFICATE: z.string().default('true'),
 
   SOLARMAN_API_URL: z.string().url().optional(),
   SOLARMAN_APP_ID: z.string().optional(),

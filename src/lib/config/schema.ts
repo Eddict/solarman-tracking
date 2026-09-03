@@ -9,7 +9,7 @@ const syncSchema = z
 
 const backfillSchema = z
   .object({
-    maxConsecutiveEmptyDays: z.number().int().min(1).max(90).default(7),
+    maxConsecutiveEmptyDays: z.number().int().min(1).max(7305).default(7),
   })
   .default({})
 
@@ -29,7 +29,7 @@ const telegramSchema = z
 
 const dashboardSchema = z
   .object({
-    defaultRangeHours: z.number().int().min(1).max(24 * 90).default(24),
+    defaultRangeHours: z.number().int().min(1).max(24 * 7305).default(24),
   })
   .default({})
 
@@ -61,7 +61,7 @@ const backupSchema = z
 const archiveSchema = z
   .object({
     enabled: z.boolean().default(false),
-    hotRetentionDays: z.number().int().min(7).max(3650).default(90),
+    hotRetentionDays: z.number().int().min(7).max(7305).default(3653),
   })
   .default({})
 

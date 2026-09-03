@@ -32,20 +32,70 @@ export class SolarmanClient {
   }
 
   async getHistoryFrame(day: string) {
-    return this.post<SolarmanHistoryResponse>('/station/v1.0/history', {
+    const body = {
       stationId: this.config.stationId,
       timeType: 1,
       startTime: day,
+    }
+
+    console.debug('[solarman] history request', {
+      path: '/station/v1.0/history',
+      day,
+      stationId: this.config.stationId,
+      body,
     })
+
+    const response = await this.post<SolarmanHistoryResponse>('/station/v1.0/history', body)
+
+    const responseRecord = response as Record<string, unknown> | null
+
+    console.debug('[solarman] history response', {
+      day,
+      stationId: this.config.stationId,
+      keys: responseRecord ? Object.keys(responseRecord).sort() : [],
+      stationDataItems: Array.isArray(responseRecord?.stationDataItems)
+        ? responseRecord.stationDataItems.length
+        : 0,
+      success: (response as { success?: boolean } | undefined)?.success,
+      msg: (response as { msg?: string | null } | undefined)?.msg,
+    })
+
+    return response
   }
 
   async getHistoryDay(startDay: string, endDay: string) {
-    return this.post<SolarmanHistoryResponse>('/station/v1.0/history', {
+    const body = {
       stationId: this.config.stationId,
       timeType: 2,
       startTime: startDay,
       endTime: endDay,
+    }
+
+    console.debug('[solarman] history range request', {
+      path: '/station/v1.0/history',
+      startDay,
+      endDay,
+      stationId: this.config.stationId,
+      body,
     })
+
+    const response = await this.post<SolarmanHistoryResponse>('/station/v1.0/history', body)
+
+    const responseRecord = response as Record<string, unknown> | null
+
+    console.debug('[solarman] history range response', {
+      startDay,
+      endDay,
+      stationId: this.config.stationId,
+      keys: responseRecord ? Object.keys(responseRecord).sort() : [],
+      stationDataItems: Array.isArray(responseRecord?.stationDataItems)
+        ? responseRecord.stationDataItems.length
+        : 0,
+      success: (response as { success?: boolean } | undefined)?.success,
+      msg: (response as { msg?: string | null } | undefined)?.msg,
+    })
+
+    return response
   }
 
   private async post<T>(path: string, body: Record<string, unknown>) {

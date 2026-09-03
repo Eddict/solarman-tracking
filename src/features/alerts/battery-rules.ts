@@ -1,6 +1,8 @@
-import type { RowDataPacket } from 'mysql2/promise'
+import sql from 'mssql'
+import type { IResult } from 'mssql'
 
 import type { AppConfig } from '@/lib/config/schema'
+import { env } from '@/lib/env'
 import { withConnection } from '@/server/db/connection'
 
 export type BatteryAlertType = 'soc_low' | 'soc_high'
@@ -25,7 +27,7 @@ export function evaluateBatteryAlerts(
 
   const alerts: BatteryAlert[] = []
   const soc = sample.batterySoc
-  const time = sample.recordedAt.toLocaleString('en-GB')
+  const time = sample.recordedAt.toLocaleString(env.USE_LOCALE)
 
   if (soc <= config.battery.socLow) {
     alerts.push({
@@ -54,17 +56,22 @@ export async function wasAlertSentRecently(input: {
   }
 
   return withConnection(async (connection) => {
-    const [rows] = await connection.query<
-      (RowDataPacket & { total: number })[]
-    >(
-      `SELECT COUNT(*) AS total
-       FROM telegram_messages
-       WHERE alert_type = ? AND station_id = ?
-         AND sent_at >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL ? HOUR)`,
-      [input.alertType, input.stationId, input.cooldownHours],
-    )
+    const request = new sql.Request(connection)
 
-    return Number(rows[0]?.total ?? 0) > 0
+    request.input('alertType', sql.VarChar, input.alertType)
+    request.input('stationId', sql.Int, input.stationId)
+    request.input('cooldownHours', sql.Int, input.cooldownHours)
+
+    // Using DATEADD and GETUTCDATE() to replicate UTC_TIMESTAMP interval math in MSSQL
+    const result: IResult<{ total: number }> = await request.query(`
+      SELECT COUNT(*) AS total
+      FROM telegram_messages
+      WHERE alert_type = @alertType 
+        AND station_id = @stationId
+        AND sent_at >= DATEADD(hour, -@cooldownHours, GETUTCDATE())
+    `)
+
+    return Number(result.recordset[0]?.total ?? 0) > 0
   })
 }
 
@@ -75,10 +82,16 @@ export async function recordTelegramAlert(input: {
   sentAt: Date
 }) {
   await withConnection(async (connection) => {
-    await connection.query(
-      `INSERT INTO telegram_messages (alert_type, station_id, message_text, sent_at)
-       VALUES (?, ?, ?, ?)`,
-      [input.alertType, input.stationId, input.messageText, input.sentAt],
-    )
+    const request = new sql.Request(connection)
+
+    request.input('alertType', sql.VarChar, input.alertType)
+    request.input('stationId', sql.Int, input.stationId)
+    request.input('messageText', sql.NVarChar, input.messageText) // Use NVarChar to safely preserve emojis/HTML
+    request.input('sentAt', sql.DateTime2, input.sentAt)
+
+    await request.query(`
+      INSERT INTO telegram_messages (alert_type, station_id, message_text, sent_at)
+      VALUES (@alertType, @stationId, @messageText, @sentAt)
+    `)
   })
 }

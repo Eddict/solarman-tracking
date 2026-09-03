@@ -12,6 +12,7 @@ import type {
   ArchiveRun,
 } from '@/features/archive/types'
 import type { AppConfig } from '@/lib/config/schema'
+import { env } from '@/lib/env'
 
 type ArchivePanelProps = {
   config: AppConfig
@@ -303,7 +304,7 @@ export function ArchivePanel({
                   ) : null}
                 </div>
                 <div className="text-xs text-slate-500">
-                  {run.status} · {new Date(run.createdAt).toLocaleString('it-IT')}
+                  {run.status} · {new Date(run.createdAt).toLocaleString(env.USE_LOCALE)}
                 </div>
               </li>
             ))}

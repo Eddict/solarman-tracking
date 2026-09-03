@@ -4,7 +4,7 @@
 |-------|-------|
 | Status | done |
 | Phase | 1 |
-| Files | `src/server/jobs/backfill.ts`, `src/server/db/backfill-repository.ts`, `scripts/backfill-full.ts`, `docker/mysql/schema.sql` |
+| Files | `src/server/jobs/backfill.ts`, `src/server/db/mysql/backfill-repository.ts`, `scripts/backfill-full.ts`, `docker/mysql/schema.sql` |
 | Tests | `src/server/jobs/backfill.test.ts` |
 
 ## Acceptance criteria

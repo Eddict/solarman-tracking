@@ -81,7 +81,7 @@ export function NotificationsSettingsPage({
           min={0}
           max={48}
           step={1}
-          unit=" ore"
+          unit=" hours"
           hint="Minimum interval between two notifications of the same type"
           onChange={(value) =>
             setConfig({

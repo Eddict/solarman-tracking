@@ -1,6 +1,6 @@
 {
   "name": "solar-tracking",
-  "description": "Self-hosted Solarman PV monitoring with local dashboard, MySQL sync, and Telegram battery alerts",
+  "description": "Self-hosted Solarman PV monitoring with local dashboard, MSSQL sync, and Telegram battery alerts",
   "keywords": [
     "solarman",
     "solar",
@@ -38,9 +38,8 @@
     "@tanstack/react-router": "latest",
     "@tanstack/react-router-devtools": "latest",
     "@tanstack/react-start": "latest",
-    "@tanstack/router-plugin": "^1.132.0",
     "lucide-react": "^0.545.0",
-    "mysql2": "^3.22.5",
+    "mssql": "^12.7.0",
     "nitro": "npm:nitro-nightly@latest",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -50,6 +49,7 @@
   },
   "devDependencies": {
     "@tanstack/devtools-vite": "latest",
+    "@types/mssql": "^12.3.0",
     "@types/node": "^22.10.2",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",

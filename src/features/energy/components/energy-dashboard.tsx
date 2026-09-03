@@ -11,6 +11,7 @@ import {
 import { runEnergySync } from '@/features/energy/server/get-energy-dashboard'
 import type { EnergyDashboardData } from '@/features/energy/types'
 import type { PeriodType } from '@/features/energy/time-range'
+import { env } from '@/lib/env'
 
 type EnergyDashboardProps = {
   data: EnergyDashboardData
@@ -205,5 +206,5 @@ function formatEnergy(wh: number) {
 }
 
 function formatDateTime(value: string) {
-  return new Date(value).toLocaleString('it-IT')
+  return new Date(value).toLocaleString(env.USE_LOCALE)
 }

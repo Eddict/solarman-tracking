@@ -1,8 +1,8 @@
-import { readdir, readFile } from 'node:fs/promises'
+import sql from 'mssql'
+
+import { readFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-
-import type { Pool } from 'mysql2/promise'
 
 import { getPool } from '@/server/db/connection'
 
@@ -25,42 +25,20 @@ export function ensureSchema() {
 }
 
 async function applySchema() {
-  const pool = getPool()
-  await runSqlFile(pool, path.join(projectRoot, 'docker/mysql/schema.sql'))
-  await runMigrations(pool)
-}
+  const pool = getPool() as sql.ConnectionPool
 
-async function runMigrations(pool: Pool) {
-  const migrationsDir = path.join(projectRoot, 'docker/mysql/migrations')
-  let files: string[] = []
-
-  try {
-    files = (await readdir(migrationsDir))
-      .filter((file) => file.endsWith('.sql'))
-      .sort()
-  } catch {
-    return
+  if (!pool.connected) {
+    await pool.connect()
   }
 
-  for (const file of files) {
-    await runSqlFile(pool, path.join(migrationsDir, file))
-  }
-}
-
-async function runSqlFile(pool: Pool, filePath: string) {
+  const filePath = path.join(projectRoot, '../docker/mssql/schema.sql')
   const sql = await readFile(filePath, 'utf8')
-  const statements = sql
-    .split(';')
-    .map((statement) => statement.trim())
-    .filter((statement) => statement.length > 0)
+  const batches = sql
+    .split(/^\s*GO\s*$/im)
+    .map((batch) => batch.trim())
+    .filter((batch) => batch.length > 0)
 
-  const connection = await pool.getConnection()
-
-  try {
-    for (const statement of statements) {
-      await connection.query(statement)
-    }
-  } finally {
-    connection.release()
+  for (const batch of batches) {
+    await pool.request().batch(batch)
   }
 }

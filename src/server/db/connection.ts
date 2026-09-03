@@ -1,47 +1,45 @@
-import mysql from 'mysql2/promise'
+import sql from 'mssql'
 
 import { env } from '@/lib/env'
-
 import { ensureSchema } from '@/server/db/migrate'
 
-let pool: mysql.Pool | null = null
+let pool: sql.ConnectionPool | null = null
 
 export function getPool() {
-  if (pool) {
-    return pool
+  if (!pool) {
+    pool = new sql.ConnectionPool({
+      user: env.MSSQL_USER,
+      password: env.MSSQL_PASSWORD,
+      server: env.MSSQL_SERVER,
+      port: Number(env.MSSQL_PORT),
+      database: env.MSSQL_DATABASE,
+      pool: { max: 10 },
+      options: {
+        encrypt: env.MSSQL_ENCRYPT === 'true',
+        trustServerCertificate: env.MSSQL_TRUST_SERVER_CERTIFICATE === 'true',
+      },
+    })
   }
-
-  pool = mysql.createPool({
-    host: env.MYSQL_HOST,
-    port: Number(env.MYSQL_PORT),
-    user: env.MYSQL_USER,
-    password: env.MYSQL_PASSWORD,
-    database: env.MYSQL_DATABASE,
-    waitForConnections: true,
-    connectionLimit: 10,
-    timezone: 'Z',
-  })
 
   return pool
 }
 
 export async function withConnection<T>(
-  fn: (connection: mysql.PoolConnection) => Promise<T>,
+  fn: (connection: sql.ConnectionPool) => Promise<T>,
 ) {
   await ensureSchema()
+  const connection = getPool() as sql.ConnectionPool
 
-  const connection = await getPool().getConnection()
-
-  try {
-    return await fn(connection)
-  } finally {
-    connection.release()
+  if (!connection.connected) {
+    await connection.connect()
   }
+
+  return fn(connection)
 }
 
 export async function closePool() {
   if (pool) {
-    await pool.end()
+    await pool.close()
     pool = null
   }
 }

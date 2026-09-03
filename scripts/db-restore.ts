@@ -12,7 +12,7 @@ async function main() {
   }
 
   await restoreDatabase(inputPath)
-  console.log(`[db:restore] ripristino completato da ${inputPath}`)
+  console.log(`[db:restore] restore completed from ${inputPath}`)
   await closePool()
 }
 

@@ -1,3 +1,5 @@
+import { env } from '@/lib/env'
+
 export type PeriodType = 'day' | 'week' | 'month'
 
 export type TimeRangeInput = {
@@ -139,7 +141,7 @@ export function formatPeriodLabel(range: ResolvedTimeRange) {
 
   if (range.period === 'day') {
     if (range.isLive) {
-      return 'Oggi (dalla mezzanotte a ora)'
+      return 'Today (from midnight to now)'
     }
 
     return capitalize(formatFullDay(anchorDay))
@@ -148,18 +150,18 @@ export function formatPeriodLabel(range: ResolvedTimeRange) {
   if (range.period === 'week') {
     const { start, end } = periodBounds('week', anchorDay)
     const sunday = addDays(end, -1)
-    const label = `Settimana ${formatShortDay(start)} – ${formatFullDay(sunday)}`
-    return range.isLive ? `${label} (in corso)` : label
+    const label = `Week ${formatShortDay(start)} - ${formatFullDay(sunday)}`
+    return range.isLive ? `${label} (ongoing)` : label
   }
 
   const label = capitalize(
-    anchorDay.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' }),
+    anchorDay.toLocaleDateString(env.USE_LOCALE, { month: 'long', year: 'numeric' }),
   )
-  return range.isLive ? `${label} (in corso)` : label
+  return range.isLive ? `${label} (ongoing)` : label
 }
 
 function formatFullDay(date: Date) {
-  return date.toLocaleDateString('it-IT', {
+  return date.toLocaleDateString(env.USE_LOCALE, {
     weekday: 'short',
     day: '2-digit',
     month: 'short',
@@ -168,7 +170,7 @@ function formatFullDay(date: Date) {
 }
 
 function formatShortDay(date: Date) {
-  return date.toLocaleDateString('it-IT', {
+  return date.toLocaleDateString(env.USE_LOCALE, {
     day: '2-digit',
     month: 'short',
   })
@@ -183,7 +185,7 @@ export function todayDateOnly() {
 }
 
 export const RANGE_PRESETS = [
-  { label: 'Oggi', period: 'day' },
-  { label: 'Settimana', period: 'week' },
-  { label: 'Mese', period: 'month' },
+  { label: 'Today', period: 'day' },
+  { label: 'Week', period: 'week' },
+  { label: 'Month', period: 'month' },
 ] as const satisfies ReadonlyArray<{ label: string; period: PeriodType }>

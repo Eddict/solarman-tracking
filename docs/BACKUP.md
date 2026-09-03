@@ -23,14 +23,14 @@ MySQL data is stored in the Docker named volume `mysql_data`. Data survives cont
 
 ## Settings UI
 
-Open **Impostazioni → Backup → Gestisci backup** (`/settings/backup`):
+Open **Settings → Backup → Gestisci backup** (`/settings/backup`):
 
 - Health status (OK / missing / last run failed)
 - Backup history from `backup_runs` table
 - **Esegui backup ora** — manual backup
-- **Ripristina** — destructive restore with confirmation (`RIPRISTINA`)
+- **Restore** — destructive restore with confirmation (`RIPRISTINA`)
 
-Tune missing-backup threshold and Telegram alerts under **Impostazioni → Backup**.
+Tune missing-backup threshold and Telegram alerts under **Settings → Backup**.
 
 ## Local backup (CLI)
 

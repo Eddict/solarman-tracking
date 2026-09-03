@@ -43,8 +43,6 @@ skills:
     use: "@tanstack/router-core#router-core/ssr"
   - when: "Full type inference philosophy (never cast, never annotate inferred values), Register module declaration, from narrowing on hooks and Link, strict:false for shared components, getRouteApi for code-split typed access, addChildren with object syntax for TS perf, LinkProps and ValidateLinkOptions type utilities, as const satisfies pattern."
     use: "@tanstack/router-core#router-core/type-safety"
-  - when: "TanStack Router bundler plugin for route generation and automatic code splitting. Supports Vite, Webpack, Rspack, and esbuild. Configures autoCodeSplitting, routesDirectory, target framework, and code split groupings."
-    use: "@tanstack/router-plugin#router-plugin"
 <!-- intent-skills:end -->
 
 ## Regole per gli agenti (Solar Tracking)

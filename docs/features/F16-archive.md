@@ -22,7 +22,7 @@
 | Key | Default | Description |
 |-----|---------|-------------|
 | `archive.enabled` | `false` | Enable archive export/hydrate UI actions |
-| `archive.hotRetentionDays` | `90` | Suggested local hot window (prune not in this feature) |
+| `archive.hotRetentionDays` | `3653` | Suggested local hot window (prune not in this feature) |
 
 ## Notes
 

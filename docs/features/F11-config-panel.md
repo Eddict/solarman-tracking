@@ -4,7 +4,7 @@
 |-------|-------|
 | Status | done |
 | Phase | 0 + 2 |
-| Files | `src/lib/config/`, `src/server/db/config-repository.ts`, `src/routes/settings.tsx`, `src/features/settings/` |
+| Files | `src/lib/config/`, `src/server/db/mysql/config-repository.ts`, `src/routes/settings.tsx`, `src/features/settings/` |
 | Tests | `src/lib/config/schema.test.ts` |
 
 ## Acceptance criteria

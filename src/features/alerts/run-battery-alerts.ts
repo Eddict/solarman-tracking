@@ -56,7 +56,7 @@ export async function runBatteryAlerts(): Promise<BatteryAlertRunResult> {
     const result = await sendTelegramMessage(alert.message)
 
     if (!result.ok) {
-      errors.push(result.error ?? 'Errore sconosciuto')
+      errors.push(result.error ?? 'Unknown error')
       continue
     }
 

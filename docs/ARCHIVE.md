@@ -13,11 +13,11 @@ Each day file is gzipped JSON Lines of minute samples (same fields as `energy_sa
 
 ## Settings UI
 
-Open **Impostazioni → Archivio** (`/settings/archive`):
+Open **Settings → Archivio** (`/settings/archive`):
 
 - Month calendar of local vs S3 day state
-- **Carica su S3** / **Esporta mese** — MySQL → S3
-- **Ripristina da S3** / **Ripristina mese** — S3 → MySQL upsert
+- **Upoad to S3** / **Export month** — MySQL → S3
+- **Restore from S3** / **Restore month** — S3 → MySQL upsert
 
 ## Environment
 
@@ -35,7 +35,7 @@ App config (Settings):
 | Key | Default | Description |
 |-----|---------|-------------|
 | `archive.enabled` | `false` | Enable archive actions |
-| `archive.hotRetentionDays` | `90` | Suggested local hot window |
+| `archive.hotRetentionDays` | `3653` | Suggested local hot window |
 
 ## Relation to F8 backup
 

@@ -30,7 +30,7 @@ export function BackupPolicySection({ config: initialConfig }: BackupPolicySecti
           min={1}
           max={168}
           step={1}
-          unit=" ore"
+          unit=" hours"
           hint="Report a problem if the last successful backup is older than this threshold"
           onChange={(value) =>
             setConfig({

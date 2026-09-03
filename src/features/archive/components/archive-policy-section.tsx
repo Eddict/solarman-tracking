@@ -33,16 +33,16 @@ export function ArchivePolicySection({ config: initialConfig }: ArchivePolicySec
               ...config,
               archive: {
                 enabled: checked,
-                hotRetentionDays: config.archive?.hotRetentionDays ?? 90,
+                hotRetentionDays: config.archive?.hotRetentionDays ?? 3653,
               },
             })
           }
         />
         <SliderField
           label="Local hot window"
-          value={config.archive?.hotRetentionDays ?? 90}
+          value={config.archive?.hotRetentionDays ?? 3653}
           min={7}
-          max={365}
+          max={7305}
           step={1}
           unit=" days"
           hint="Operational note: older days can live on S3 (automatic pruning is not active in F16)"

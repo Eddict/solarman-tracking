@@ -1,6 +1,6 @@
 # Solar Tracking
 
-Self-hosted monitoring for [Solarman](https://www.solarmanpv.com/) photovoltaic plants. Sync 5-minute energy samples to MySQL, explore production, consumption, and battery history in a local dashboard, and receive Telegram battery alerts — without relying on a third-party SaaS.
+Self-hosted monitoring for [Solarman](https://www.solarmanpv.com/) photovoltaic plants. Sync 5-minute energy samples to MSSQL, explore production, consumption, and battery history in a local dashboard, and receive Telegram battery alerts — without relying on a third-party SaaS.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?logo=docker&logoColor=white)](docker-compose.yml)
@@ -19,7 +19,7 @@ Self-hosted monitoring for [Solarman](https://www.solarmanpv.com/) photovoltaic 
 ## Who is this for?
 
 - Home or small commercial PV owners using **Solarman** (API credentials + station ID)
-- Self-hosters who want **local data ownership** (MySQL on your machine or NAS)
+- Self-hosters who want **local data ownership** (MSSQL on your machine or NAS)
 - Users who prefer a **dedicated energy dashboard** over generic home automation
 - Italian-speaking households (UI and Telegram messages are in Italian)
 
@@ -33,7 +33,7 @@ Self-hosted monitoring for [Solarman](https://www.solarmanpv.com/) photovoltaic 
 | Battery history and SOC tracking | Done |
 | Telegram battery threshold alerts | Done |
 | Settings panel (`app_config` in DB) | Done |
-| MySQL backup + optional Cubbit DS3 upload | Done |
+| MSSQL backup + optional Cubbit DS3 upload | Done |
 | Telegram daily energy recap | Planned |
 | Consumption classification (local LLM) | Planned |
 | Weather history and forecast | Planned |
@@ -44,7 +44,7 @@ Self-hosted monitoring for [Solarman](https://www.solarmanpv.com/) photovoltaic 
 
 | | Official Solarman app | Solar Tracking |
 |---|---|---|
-| Data location | Vendor cloud | Your MySQL |
+| Data location | Vendor cloud | Your MSSQL |
 | Custom alerts | Limited | Configurable thresholds + Telegram |
 | Historical export | App-dependent | SQL dumps + `app_config` JSON |
 | Network exposure | Internet | `127.0.0.1` only |
@@ -86,7 +86,7 @@ See [docs/INIT.md](docs/INIT.md) for the full setup guide.
 | `.env.docker` | Used by Docker Compose (committed) |
 | `.env` / `.env.local` | Real credentials — **never commit** |
 
-Secrets (Solarman, Telegram, MySQL) stay in env files. Tunables (sync interval, battery thresholds, etc.) are managed in the in-app **Settings** panel and stored in the `app_config` DB table.
+Secrets (Solarman, Telegram, MSSQL) stay in env files. Tunables (sync interval, battery thresholds, etc.) are managed in the in-app **Settings** panel and stored in the `app_config` DB table.
 
 ## Commands
 
@@ -103,7 +103,7 @@ pnpm run sync:worker          # continuous sync loop (interval from app_config)
 pnpm run compare:totals       # validate minute rollups vs Solarman daily API
 pnpm run db:dedupe-samples    # normalize 5-min buckets and remove duplicates
 
-pnpm run db:dump              # MySQL dump + app_config JSON export
+pnpm run db:dump              # MSSQL dump + app_config JSON export
 pnpm run db:restore           # restore from backup
 ```
 
@@ -115,12 +115,12 @@ docker compose --profile full up -d     # + llm, telegram-bot
 docker compose --profile backup up -d   # + scheduled backup to Cubbit DS3
 ```
 
-MySQL data persists in the `mysql_data` named volume. **Warning:** `docker compose down -v` deletes all data.
+MSSQL data persists in the `mysql_data` named volume. **Warning:** `docker compose down -v` deletes all data.
 
 ## Architecture
 
 - **Frontend/API:** TanStack Start + React (TypeScript)
-- **DB:** MySQL 8 (minute samples, checkpoints, app config)
+- **DB:** MSSQL (minute samples, checkpoints, app config)
 - **Sync:** background worker polling Solarman (5-min granularity)
 - **Config:** `app_config` table + Settings UI (exported in backups)
 - **Backup:** local dumps + optional rclone → Cubbit DS3

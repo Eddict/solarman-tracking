@@ -102,7 +102,7 @@ export function TimeRangeNav({ period, anchor, minDate, onChange }: TimeRangeNav
             onClick={() => onChange({ period, anchor: undefined })}
             className="rounded-lg px-3 py-1.5 text-sm font-medium text-amber-700 ring-1 ring-amber-200 hover:bg-amber-50"
           >
-            Torna a oggi
+            Back to today
           </button>
         ) : null}
       </div>

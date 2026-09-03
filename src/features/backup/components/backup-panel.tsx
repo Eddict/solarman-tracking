@@ -6,6 +6,7 @@ import {
   restoreFromBackup,
   triggerBackup,
 } from '@/features/backup/server/backup-api'
+import { env } from '@/lib/env'
 
 type BackupPanelProps = {
   health: BackupHealth
@@ -249,7 +250,7 @@ function StatusBadge({ status }: { status: BackupRun['status'] }) {
 
 function formatDate(value: Date | string) {
   const date = value instanceof Date ? value : new Date(value)
-  return date.toLocaleString('it-IT')
+  return date.toLocaleString(env.USE_LOCALE)
 }
 
 function formatBytes(bytes: number) {

@@ -9,6 +9,7 @@ import {
 } from '@/features/backfill/server/backfill-api'
 import type { BackfillMonthSummary } from '@/features/backfill/types'
 import { formatUtcDayKey } from '@/features/energy/day-coverage'
+import { env } from '@/lib/env'
 
 const MONTH_NAMES = [
   'January',
@@ -275,5 +276,5 @@ function formatOptionalDate(value: string | null) {
     return '—'
   }
 
-  return new Date(value).toLocaleString('it-IT')
+  return new Date(value).toLocaleString(env.USE_LOCALE)
 }

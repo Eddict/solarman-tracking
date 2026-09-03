@@ -20,6 +20,7 @@ import {
   resolveSmoothWindow,
 } from '@/features/energy/chart-series'
 import type { EnergySample } from '@/features/energy/types'
+import { env } from '@/lib/env'
 
 type EnergyChartProps = {
   samples: EnergySample[]
@@ -229,7 +230,7 @@ function toChartPoint(sample: EnergySample, useDateLabels: boolean): ChartPoint 
   const date = new Date(sample.recordedAt)
 
   return {
-    time: date.toLocaleString('it-IT', {
+    time: date.toLocaleString(env.USE_LOCALE, {
       ...(useDateLabels ? { day: '2-digit', month: '2-digit' } : {}),
       hour: '2-digit',
       minute: '2-digit',

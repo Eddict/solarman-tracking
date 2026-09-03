@@ -20,7 +20,7 @@ Application tunables (intervals, thresholds, feature flags, UI defaults) must **
 
 Secrets and infrastructure only:
 
-- MySQL connection
+- MSSQL connection
 - Solarman API credentials
 - Telegram bot token / chat ID
 - LLM endpoint

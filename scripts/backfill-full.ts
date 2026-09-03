@@ -4,7 +4,7 @@ import { closePool } from '@/server/db/connection'
 import { runCheckpointBackfill } from '@/server/jobs/backfill'
 
 async function main() {
-  const maxDays = Number(process.argv[2] ?? 365)
+  const maxDays = Number(process.argv[2] ?? 7305)
   const result = await runCheckpointBackfill({ maxDays })
   console.log(
     `[sync:backfill:full] ${result.message} (${result.inserted} lines, ${result.daysProcessed} days, reason=${result.stoppedReason})`,

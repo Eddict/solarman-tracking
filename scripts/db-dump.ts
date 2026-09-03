@@ -6,7 +6,7 @@ import { closePool } from '@/server/db/connection'
 async function main() {
   const dump = await dumpDatabase()
   console.log(`[db:dump] creato ${dump.filePath}`)
-  console.log(`[db:dump] config esportata in backups/app_config.json`)
+  console.log(`[db:dump] config exportta in backups/app_config.json`)
   await closePool()
 }
 

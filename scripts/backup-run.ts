@@ -14,7 +14,7 @@ async function main() {
   }
 
   if (result.run) {
-    console.log(`[backup-run] completato: ${result.run.filename}`)
+    console.log(`[backup-run] completed: ${result.run.filename}`)
   }
 
   await closePool()

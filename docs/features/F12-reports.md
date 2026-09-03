@@ -4,7 +4,7 @@
 |-------|-------|
 | Status | not_started |
 | Phase | 5 (post-dashboard) |
-| Files | `src/features/reports/`, `src/routes/reports.tsx`, `src/server/db/report-repository.ts` |
+| Files | `src/features/reports/`, `src/routes/reports.tsx`, `src/server/db/mysql/report-repository.ts` |
 | Tests | `src/features/reports/**/*.test.ts` |
 
 ## Goal
@@ -121,7 +121,7 @@ Validate with `reportDefinitionSchema` in `src/features/reports/schema.ts` (not 
 |-----|---------|---------|
 | `reports.defaultGranularity` | `auto` | Default when creating new report |
 | `reports.maxBlocks` | `8` | Limit blocks per report |
-| `reports.maxCustomRangeDays` | `365` | Cap custom date span |
+| `reports.maxCustomRangeDays` | `7305` | Cap custom date span |
 | `reports.cacheRunMinutes` | `5` | Optional server cache for identical run params |
 
 Expose in Settings under **Report** section (English labels).

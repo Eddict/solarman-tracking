@@ -19,3 +19,4 @@ todos.json
 backups/
 solar-tracking-phased_*.plan.md
 .vscode/
+pnpm.log
