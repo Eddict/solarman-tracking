@@ -31,7 +31,7 @@ async function applySchema() {
     await pool.connect()
   }
 
-  const filePath = path.join(projectRoot, '../docker/mssql/schema.sql')
+  const filePath = path.join(projectRoot, 'docker/mssql/schema.sql')
   const sql = await readFile(filePath, 'utf8')
   const batches = sql
     .split(/^\s*GO\s*$/im)
